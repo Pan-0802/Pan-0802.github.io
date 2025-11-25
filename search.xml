@@ -4,6 +4,94 @@
   
     
     <entry>
+      <title></title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%974/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%974/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java运算符</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%973/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%973/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、算数运算符"><a href="#一、算数运算符" class="headerlink" title="一、算数运算符"></a>一、算数运算符</h2><h3 id="a-普通运算符"><a href="#a-普通运算符" class="headerlink" title="a.普通运算符"></a>a.普通运算符</h3><h3 id="b-自增自减运算符（也算算数运算符的一种）"><a href="#b-自增自减运算符（也算算数运算符的一种）" class="headerlink" title="b.自增自减运算符（也算算数运算符的一种）"></a>b.自增自减运算符（也算算数运算符的一种）</h3><p>混合使用：<br>符号在前：先运算，在使用运算后的值<br>符号在后：先使用原值，使用完毕后，自身再运算</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Demo01Arichmetic</span> &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">            <span class="comment">/*int i = 10;</span></span><br><span class="line"><span class="comment">            ++i;</span></span><br><span class="line"><span class="comment">            System.out.println(&quot;i=&quot;+i); **/</span></span><br><span class="line">            <span class="type">int</span> x=<span class="number">10</span>;</span><br><span class="line">            <span class="type">int</span> y=<span class="number">20</span>;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">            10+19+12=41</span></span><br><span class="line"><span class="comment">            int result = x++ + --y + ++x;*/</span></span><br><span class="line">            <span class="comment">//11+19+11=41A</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> ++x + --y + x++;</span><br><span class="line">    </span><br><span class="line">            System.out.println(result);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>运算符——企业真题c&#x3D;c++分析</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> c=<span class="number">10</span>;</span><br><span class="line">c =c++;</span><br><span class="line">System.out.println(c);<span class="comment">//10</span></span><br></pre></td></tr></table></figure><h2 id="二、逻辑运算符"><a href="#二、逻辑运算符" class="headerlink" title="二、逻辑运算符"></a>二、逻辑运算符</h2><p>1、作用：连接多个boolean结果<br>2、结果：boolean型结果<br>符号如下：</p><table><thead><tr><th>符号</th><th>功能</th></tr></thead><tbody><tr><td>&amp;&amp;（与，并且）</td><td>有假则假</td></tr><tr><td></td><td></td></tr><tr><td>！（非，取反）</td><td>不ture就false</td></tr><tr><td>^（异或）</td><td>符号前后结果一样为false；不一样为ture    ture^ture   -&gt;   false    &#x2F;&#x2F;</td></tr></tbody></table><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i=<span class="number">10</span>,j=<span class="number">20</span>,k=<span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">boolean</span> result01=(i&gt;j)&amp;&amp;(i==k);</span><br><span class="line">System.out.println(<span class="string">&quot;result01=&quot;</span>+result01);<span class="comment">//false</span></span><br><span class="line"></span><br><span class="line"><span class="type">boolean</span> result02=(i&gt;j)||(i==k);</span><br><span class="line">System.out.println(<span class="string">&quot;result02=&quot;</span>+result02);<span class="comment">//ture</span></span><br></pre></td></tr></table></figure><p>&amp;  :<br>1.单与，如果前后都是布尔型，有假则假，但是如果符号前为false,符号后会继续执行<br>2.如果该符号前后都是数字，看作是位运算符<br>&amp;&amp;  :<br>1.双与，有假则假，但是有短路效果，如果符号前为false，符号后的判断就不会执行了<br>|   :<br>1.单或，如果前后都是布尔型，有真则真，但是如果符号前为true，符号后的判断会继续进行2.如果该符号前后都是数字，看作是位运算符<br>||  :<br>1.双或，有真则真，但是有短路效果，如果符号前为true，符号后的判断就不会执行<br>*前为false会执行？会执行！！！！！！！ </p><h2 id="三、三元运算符"><a href="#三、三元运算符" class="headerlink" title="三、三元运算符"></a>三、三元运算符</h2><p>Boolean表达式？表达式1：表达式2</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">score</span> <span class="operator">=</span> <span class="number">60</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> score&gt;=<span class="number">60</span>?<span class="string">&quot;及格&quot;</span>:<span class="string">&quot;不及格&quot;</span>;</span><br><span class="line">System.out.println(<span class="string">&quot;result=&quot;</span>+result);</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java常量 变量 类型转化</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%972/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%972/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、常量"><a href="#一、常量" class="headerlink" title="一、常量"></a>一、常量</h2><h3 id="a）分类"><a href="#a）分类" class="headerlink" title="a）分类"></a>a）分类</h3><p>1、整数常量<br>2、小数常量<br>3、字符常量：带‘ ’的 ，单引号中必须有且只能有一个内容<br>‘1’（算）  ‘11’（不算）<br>4、字符串常量：带双引号的”“ 双引号中内容随意<br>5、布尔常量：ture（真） false（假）<br>6、空常量：null  代表的是数据不存在</p><p>null和 “”比较：<br>“”为真实存在的内容     null为数据都不存在</p><h3 id="b）常量间的运算"><a href="#b）常量间的运算" class="headerlink" title="b）常量间的运算"></a>b）常量间的运算</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Constant</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="comment">//整数常量</span></span><br><span class="line">        System.out.println(<span class="number">1</span>);</span><br><span class="line">        System.out.println(-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//小数常量</span></span><br><span class="line">        System.out.println(<span class="number">1.5</span>);</span><br><span class="line">        System.out.println(-<span class="number">1.0</span>);</span><br><span class="line">        <span class="comment">//前后都为整数，结果只取整数</span></span><br><span class="line">        <span class="comment">//前后只要有一个数带小数点，结果就是正常小数了</span></span><br><span class="line">        System.out.println(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">            System.out.println(<span class="number">10</span>/<span class="number">3</span>);</span><br><span class="line">    System.out.println(<span class="number">10.0</span>/<span class="number">3</span>);</span><br><span class="line">    System.out.println(<span class="number">10</span>/<span class="number">3.0</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="二、变量"><a href="#二、变量" class="headerlink" title="二、变量"></a>二、变量</h2><h3 id="a）变量的介绍及其使用"><a href="#a）变量的介绍及其使用" class="headerlink" title="a）变量的介绍及其使用"></a>a）变量的介绍及其使用</h3><p><img src="/./img/md2_1.jpg" alt="alt text"><br>1.变量的数据类型：<br>1.1基本数据类型：4类8种<br>整型：byte short int  long<br>浮点型：float double<br>字符型：char<br>布尔型；boolean<br>byte：  -128   ~   +127<br>short：  -32768  ~  +32768<br>int:  -2147483648  ~  +2147483647  (-2^31  ~  +2^31-1)<br>long:-9223372036854775808  ~  +9223372036854775808  (-2^63  ~  +2^63-1)</p><p>1.2引用数据类型：类  数组  接口  枚举  注解</p><p>2注意：<br>2.1字符串不属于基本数据类型，属于引用数据类型，用String表示<br>String是一个类，只不过在定义的时候可以和基本数据类型格式一样</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Constant</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">        <span class="type">byte</span> num1=<span class="number">100</span>;</span><br><span class="line">        System.out.println(num1);</span><br><span class="line">            </span><br><span class="line">        <span class="type">short</span> num2=<span class="number">100</span>;</span><br><span class="line">        <span class="comment">//num2=101;</span></span><br><span class="line">        System.out.println(num2);</span><br><span class="line">            </span><br><span class="line">        <span class="type">int</span> num3=<span class="number">10000</span>;</span><br><span class="line">        num1 =<span class="number">1</span>;</span><br><span class="line">        System.out.println(num1);</span><br><span class="line">            </span><br><span class="line">        <span class="type">long</span> num4=<span class="number">10L</span>;</span><br><span class="line">        System.out.println(num4);</span><br><span class="line">            </span><br><span class="line">        <span class="type">float</span> num5=<span class="number">10f</span>;</span><br><span class="line">        System.out.println(num5);</span><br><span class="line">            </span><br><span class="line">        <span class="type">double</span> num6=<span class="number">10d</span>;</span><br><span class="line">        System.out.println(num6);</span><br><span class="line">            </span><br><span class="line">        <span class="type">char</span> num7=<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">        System.out.println(num7);</span><br><span class="line">            </span><br><span class="line">        <span class="type">boolean</span> num8=<span class="literal">true</span>;</span><br><span class="line">        <span class="type">boolean</span> num9=<span class="literal">false</span>;</span><br><span class="line">        num8=num9;</span><br><span class="line">        System.out.println(num8);</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        String name=<span class="string">&quot;你好&quot;</span>;</span><br><span class="line">        System.out.println(name);     </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>3 切记：将来开发不要用float 或者 double 直接参与运算，因为直接参与运算会有精度损失问题</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Constant</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="comment">/*    float a=10,b=3;</span></span><br><span class="line"><span class="comment">        float result=a/b;</span></span><br><span class="line"><span class="comment">        System.out.println(result);//3.3333333</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">        <span class="type">double</span> a=<span class="number">10</span>,b=<span class="number">3</span>;</span><br><span class="line">        <span class="type">double</span> result=a/b;</span><br><span class="line">        System.out.println(result);<span class="comment">//3.3333333333333335</span></span><br><span class="line">            </span><br><span class="line">        <span class="type">float</span> x=<span class="number">3.55F</span>;</span><br><span class="line">        <span class="type">float</span> y=<span class="number">2.12F</span>;</span><br><span class="line">        <span class="type">float</span> result2=x-y;</span><br><span class="line">        System.out.println(result2);<span class="comment">//1.4300001</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="三、数据类型转换"><a href="#三、数据类型转换" class="headerlink" title="三、数据类型转换"></a>三、数据类型转换</h2><h3 id="a-分类"><a href="#a-分类" class="headerlink" title="a.分类"></a>a.分类</h3><p>a.自动类型转换：<br>将取值范围小的数值类型赋值给取值范围大的数据类型  -&gt; 小自动转大<br>做运算也自动小转大<br>b.强制类型转换：<br>大赋值给小的则需要强制转换</p><h3 id="b-基本类型中按照取值范围从小到大排序"><a href="#b-基本类型中按照取值范围从小到大排序" class="headerlink" title="b.基本类型中按照取值范围从小到大排序"></a>b.基本类型中按照取值范围从小到大排序</h3><p>排序：byte , short , char - &gt; int -&gt; long -&gt; float -&gt;double<br>布尔不参与比较</p><h3 id="c-强制类型转换"><a href="#c-强制类型转换" class="headerlink" title="c.强制类型转换"></a>c.强制类型转换</h3><p>取值范围小的数据类型   变量名  &#x3D;  取值范围大的数据类型      -&gt;需要强转<br>**怎样强转：<br>取值范围小的数据类型   变量名  &#x3D; （取值范围小的数据类型） 取值范围大的数据类型      -&gt;需要强转</p><h3 id="d-强转注意事项"><a href="#d-强转注意事项" class="headerlink" title="d.强转注意事项"></a>d.强转注意事项</h3><p>1）不要随意写成强制转的格式，因为会有精度损失问题以及数据溢出现象，除非没有办法。<br>Eg:int类型占内存4个字节，4个字节变成二进制是32位，若多出来，则前面的全部消失<br>2）byte&amp;short&amp;char的转换<br>Byte , short 定义时，若等号右边为整数常量，如果不超过byte和short的范围，则不需要我们强制转换，jvm自动装。<br>Byte,short如果等号右边有变量参与，byte和short自动提升为int，然后结果再次赋值给byte,short的变量，需要我们手动强制装。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span> <span class="variable">b</span> <span class="operator">=</span><span class="number">10</span>;</span><br><span class="line">System.out.println(b);</span><br><span class="line">b=(<span class="type">byte</span>)(b+<span class="number">1</span>);</span><br><span class="line">System.out.println(b);</span><br></pre></td></tr></table></figure><p>Char 类型数据如果参与运算，会自动提升为int型，int会取ASCII码表范围去查询字符对应的int值；如果ASCII表里面没有，则会去unicode码表（万国码）中去找。<br>byte赋值超过范围分析：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span> <span class="variable">b</span> <span class="operator">=</span> (<span class="type">byte</span>)<span class="number">200</span>;</span><br><span class="line">System.out.println(b);<span class="comment">//-56（-56为200对应的补码）</span></span><br></pre></td></tr></table></figure><h2 id="四、进制转换-位运算符-运算符的优先级"><a href="#四、进制转换-位运算符-运算符的优先级" class="headerlink" title="四、进制转换 位运算符 运算符的优先级"></a>四、进制转换 位运算符 运算符的优先级</h2><h3 id="a-位运算"><a href="#a-位运算" class="headerlink" title="a.位运算"></a>a.位运算</h3><p>1、左移：&lt;&lt;<br>运算规则：左移几位相当于乘以2的几次方<br>注意：当左移的位数n超过该数据类型的总位数时，相当于左移（n-总位数）位<br>2&lt;&lt;2  结果等于8<br>快速算法：2*（2的2次方）&#x3D;8<br>0000 0000 0010    2<br>0000 0000 1000    8</p><p>2、右移：&gt;&gt;<br>快速算法：类似于除以2的n次方，如果不能整除，向下取整。<br>9&gt;&gt;2   等于2<br>快速算法：<br>-9&gt;&gt;2  等于（-3）—————–负数的补码右移动，则左边补1</p><p>3、无符号右移： &gt;&gt;&gt;<br>运算规则：往右移动后，左边空出来的位直接补0，不管最高位是0还是1 空出来的都拿来0补<br>正数：和右移一样<br>9&gt;&gt;&gt;2      等于2<br>负数：右边移出去几位，左边补几个零，结果变为正数<br>-9&gt;&gt;&gt;2<br>结果为：1073741821</p><h3 id="b-idea的快捷键"><a href="#b-idea的快捷键" class="headerlink" title="b.idea的快捷键"></a>b.idea的快捷键</h3><table><thead><tr><th>快捷键</th><th>功能</th></tr></thead><tbody><tr><td>Alt+Enter</td><td>导入包，自动修正代码</td></tr><tr><td>CTRL+Y</td><td>删除光标所在行</td></tr><tr><td>CTRL+D</td><td>复制光标所在行的内容，插入光标位置下面</td></tr><tr><td>CTRL+Alt+L</td><td>格式化代码</td></tr><tr><td>CTRL+Shift+&#x2F;</td><td>选中代码注释，多行注释，再按则取消注释</td></tr><tr><td>CTRL+&#x2F;</td><td>单行注释</td></tr><tr><td>Alt+Shift+上下箭头</td><td>移动当前代码行</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Java入门</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%971/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%971/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、Java语言前言"><a href="#一、Java语言前言" class="headerlink" title="一、Java语言前言"></a>一、Java语言前言</h2><h3 id="a）字节"><a href="#a）字节" class="headerlink" title="a）字节"></a>a）字节</h3><p>字节：计算机中储存数据量最小的计量单位，用byte或者B表示<br>1字节（B）&#x3D;8比特（bit）<br>当然计算机中最小的存储单元为二进制，因为计算机任何看到的东西都是由CPU通过二进制转来的，二进制用bit来表示<br>8个二进制表一个字节</p><h3 id="b）存储数据的计量单位换算"><a href="#b）存储数据的计量单位换算" class="headerlink" title="b）存储数据的计量单位换算"></a>b）存储数据的计量单位换算</h3><p>8bit &#x3D; 1B<br>1024B &#x3D; 1KB<br>1024KB &#x3D; 1MB<br>1024MB &#x3D; 1GB<br>1024GB &#x3D; 1TB<br>PB   EB   ZB……</p><h3 id="c）常用的dos命令"><a href="#c）常用的dos命令" class="headerlink" title="c）常用的dos命令"></a>c）常用的dos命令</h3><h4 id="打开dos命令窗口"><a href="#打开dos命令窗口" class="headerlink" title="打开dos命令窗口"></a>打开dos命令窗口</h4><p>Win+r  -&gt;  输入cmd  -&gt;  回车<br><img src="/./img/image.jpg" alt="alt text"><br>常用命令如下：<br><img src="/./img/image1.jpg" alt="alt text"></p><h4 id="如何快速打开目录对应的dos命令窗口"><a href="#如何快速打开目录对应的dos命令窗口" class="headerlink" title="如何快速打开目录对应的dos命令窗口"></a>如何快速打开目录对应的dos命令窗口</h4><p>输入cmd -&gt; 回车<br>按上下箭头，切换输入过的命令<br>在dos命令窗口中，可以输入文件夹名或者文件名的一部分按 tab键（自动补全文件夹或者文件名）</p><h2 id="二、Java入门程序"><a href="#二、Java入门程序" class="headerlink" title="二、Java入门程序"></a>二、Java入门程序</h2><h3 id="a）开发三步骤"><a href="#a）开发三步骤" class="headerlink" title="a）开发三步骤"></a>a）开发三步骤</h3><p>1.编写：<br>a.创建一个文本文档，将后缀名改为.java，变成一个Java文件<br>b.注意：我们需要将文件的后缀名显示出来<br>2.编译：<br>a.命令：javac java文件名.java<br>b.javac会将java文件编译，生成一个.class文件（字节码文件），jvm运行只认class文件<br>3.运行：<br>a.命令：java class文件名（不需要带后缀名）</p><h3 id="b）注释"><a href="#b）注释" class="headerlink" title="b）注释"></a>b）注释</h3><p>a.单行注释：<br>&#x2F;&#x2F;注释内容<br>b.多行注释：<br>&#x2F;*<br>注释内容<br><em>&#x2F;<br>c.文档注释：<br>&#x2F;</em>*<br>注释内容<br>*&#x2F;</p><h2 id="基本及小技巧"><a href="#基本及小技巧" class="headerlink" title="基本及小技巧"></a>基本及小技巧</h2><p>1.println和print区别<br>a.println输出就带换行<br>b.print输出不带换行效果<br>2.小技巧<br>2.1.复制当前行：ctrl+d<br>2.2一次操作多行：<br>a.预留出足够空间<br>b.按住alt不放，鼠标往下拉，此时光标变长了</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>代码演示</title>
       <link href="/2025/11/24/%E4%BB%A3%E7%A0%81%E5%9D%97/%E4%BB%A3%E7%A0%81%E5%9D%97%E6%BC%94%E7%A4%BA/"/>
       <url>/2025/11/24/%E4%BB%A3%E7%A0%81%E5%9D%97/%E4%BB%A3%E7%A0%81%E5%9D%97%E6%BC%94%E7%A4%BA/</url>
@@ -18,22 +106,22 @@
     
     <entry>
       <title>奥尔罕·帕慕克《黑书》</title>
-      <link href="/2025/11/24/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
-      <url>/2025/11/24/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
+      <link href="/2025/11/24/%E9%98%85%E8%AF%BB/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
+      <url>/2025/11/24/%E9%98%85%E8%AF%BB/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
       
         <content type="html"><![CDATA[<p>我爱你就如同我爱自己的身体，<br>就如同我正在寻觅的失落灵魂，<br>就如同我在悲喜交集中所领悟到的自己无法成为的另一个人，<br>我爱你。</p>]]></content>
       
       
       <categories>
           
-          <category> 阅读 </category>
+          <category> 书籍 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> hexo </tag>
+            <tag> 阅读 </tag>
             
         </tags>
       
