@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>C语言字符串输入方法完全总结</title>
+      <link href="/2025/12/03/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E8%BE%93%E5%85%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"/>
+      <url>/2025/12/03/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E8%BE%93%E5%85%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、核心概念区分"><a href="#一、核心概念区分" class="headerlink" title="一、核心概念区分"></a>一、核心概念区分</h2><h3 id="字符数组-vs-字符串"><a href="#字符数组-vs-字符串" class="headerlink" title="字符数组 vs 字符串"></a>字符数组 vs 字符串</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符数组：只是一组字符的集合</span></span><br><span class="line"><span class="type">char</span> arr1[<span class="number">5</span>] = &#123;<span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;o&#x27;</span>&#125;;  <span class="comment">// 不是字符串！</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串：以 &#x27;\0&#x27; 结尾的字符数组</span></span><br><span class="line"><span class="type">char</span> str1[<span class="number">6</span>] = &#123;<span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;\0&#x27;</span>&#125;;  <span class="comment">// 是字符串</span></span><br><span class="line"><span class="type">char</span> str2[] = <span class="string">&quot;Hello&quot;</span>;  <span class="comment">// 自动加 &#x27;\0&#x27;</span></span><br></pre></td></tr></table></figure><h3 id="内存对比"><a href="#内存对比" class="headerlink" title="内存对比"></a>内存对比</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">字符数组 &quot;Hello&quot; 的内存布局：</span><br><span class="line">地址:  0x1000 0x1001 0x1002 0x1003 0x1004 0x1005</span><br><span class="line">值:    &#x27;H&#x27;    &#x27;e&#x27;    &#x27;l&#x27;    &#x27;l&#x27;    &#x27;o&#x27;    &#x27;\0&#x27;</span><br></pre></td></tr></table></figure><h2 id="二、常用输入方法对比表"><a href="#二、常用输入方法对比表" class="headerlink" title="二、常用输入方法对比表"></a>二、常用输入方法对比表</h2><table><thead><tr><th>方法</th><th>语法示例</th><th>是否读取空格</th><th>是否安全</th><th>是否会读取’\n’</th><th>适用场景</th></tr></thead><tbody><tr><td>scanf(“%s”)</td><td>scanf(“%s”, str)</td><td>❌ 不读空格</td><td>❌ 不安全（可能溢出）</td><td>❌ 不读换行符</td><td>读取单个单词</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> C语言 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C语言 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>web工具配置与使用</title>
       <link href="/2025/12/03/web/web%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/"/>
       <url>/2025/12/03/web/web%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
@@ -254,11 +279,11 @@
     
     
     <entry>
-      <title>方法</title>
-      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/"/>
-      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/</url>
+      <title>数组</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、方法的使用"><a href="#一、方法的使用" class="headerlink" title="一、方法的使用"></a>一、方法的使用</h2><p>1、简单方法定义（无参数返回值）<br>通用定义格式：<br>修饰符  返回值类型  方法名（参数）{<br>方法体<br>Return   结果<br>}</p><p>分为四种方法学习：<br>a.无参无返回值<br>b.有参无返回值<br>c.无参有返回值<br>d.有参有返回值</p><p>a.无参无返回值：<br>Public  static  void  方法名(){<br>方法体<br>}<br>注意事项：1）void关键字表示无返回值，写了void，就不要在方法中写return  结果<br>2）方法之间不能相互嵌套，方法之间是平级关系<br>3）方法的执行顺序只和调用顺序有关</p><p>b.有参无返回值：<br>Public  static  void  方法名(数据类型  变量名){<br>方法体<br>}</p><p>c.无参有返回值：<br>1）格式：<br>Public  static  返回值类型  方法名(){<br>方法体<br>Return  结果<br>}<br>2）调用：<br>a.打印调用：sout(方法名())<br>b.赋值调用：调用完之后用一个变量接收返回值的结果!!!!!!!极力推荐<br>数据类型  变量名  &#x3D;  方法名（）</p><p>d.有参有返回值<br>1）格式：<br>Public  static  返回值类型  方法名(参数){<br>方法体<br>Return  结果<br>}</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、数组的定义"><a href="#一、数组的定义" class="headerlink" title="一、数组的定义"></a>一、数组的定义</h2><p>1.定义：<br>a.动态初始化：定义时没有给具体的数据<br>数据类型[]  数组名  &#x3D;  new  数据类型[长度]<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]</p><p>b.静态初始化：定义数组就直接给了具体的数据<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]{元素1，元素2，…….}</p><p>c.简化的静态初始化<br>数据类型  数组名[]  &#x3D;{元素1，元素2，…….}</p><h2 id="二、数组操作"><a href="#二、数组操作" class="headerlink" title="二、数组操作"></a>二、数组操作</h2><p>1.获取数组长度<br>1.1格式：<br>数组名.length<br>1.2注意;<br>length后面不要带小括号，因为length不是数组中的方法，而是数组中的一个属性。</p><p>2.索引<br>概念：元素在数组中储存的位置（编号，下标）</p><p>3.存储数据<br>格式：<br>数组名[索引值] &#x3D; 值  –&gt;  将等号右边的数据放到数据指定的索引位置上</p><p>4.获取数据<br>System.out.println(数组名[下标]);</p><p>空指针异常：<br>*原因：当一个对象为null时，再次调用次对象中的其他成员</p><h2 id="三、内存图"><a href="#三、内存图" class="headerlink" title="三、内存图"></a>三、内存图</h2><p>1、内存：“内存条”，所有软件，运行起来都会进入内存中，占用内存，在java世界里，将内存划分为5块<br>2、五块：<br>a.栈（stack）<br>主要运行方法，方法的运行都会进栈内存运行，运行完毕后，需要“弹栈”，为了腾出空间</p><p>b.堆（Heap）<br>保存的是对象，数组，每new一次，都会在堆内存中开辟空间，并为这个空间分配一个地址值<br>堆内存中的数据都是有默认值的</p><p>c.方法区（Method Area）<br>代码的“预备区”，记录了类的信息以及方法的信息<br>方法区中主要保存class文件及其其中的信息<br>代码运行之前，需要先存进内存（方法区）</p><p>d.本地方法栈（Native  Method  Stack）:专门运行native方法（本地方法）<br>本地方法可以理解为堆对Java功能的扩充<br>有很多功能，Java语言实现不了，所以需要依靠本地方法完成（c语言编写）</p><p>e.寄存器(pc register)<br>和cpu有关</p><h2 id="四、二维数组"><a href="#四、二维数组" class="headerlink" title="四、二维数组"></a>四、二维数组</h2>]]></content>
       
       
       <categories>
@@ -279,11 +304,11 @@
     
     
     <entry>
-      <title>数组</title>
-      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/"/>
-      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/</url>
+      <title>方法</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、数组的定义"><a href="#一、数组的定义" class="headerlink" title="一、数组的定义"></a>一、数组的定义</h2><p>1.定义：<br>a.动态初始化：定义时没有给具体的数据<br>数据类型[]  数组名  &#x3D;  new  数据类型[长度]<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]</p><p>b.静态初始化：定义数组就直接给了具体的数据<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]{元素1，元素2，…….}</p><p>c.简化的静态初始化<br>数据类型  数组名[]  &#x3D;{元素1，元素2，…….}</p><h2 id="二、数组操作"><a href="#二、数组操作" class="headerlink" title="二、数组操作"></a>二、数组操作</h2><p>1.获取数组长度<br>1.1格式：<br>数组名.length<br>1.2注意;<br>length后面不要带小括号，因为length不是数组中的方法，而是数组中的一个属性。</p><p>2.索引<br>概念：元素在数组中储存的位置（编号，下标）</p><p>3.存储数据<br>格式：<br>数组名[索引值] &#x3D; 值  –&gt;  将等号右边的数据放到数据指定的索引位置上</p><p>4.获取数据<br>System.out.println(数组名[下标]);</p><p>空指针异常：<br>*原因：当一个对象为null时，再次调用次对象中的其他成员</p><h2 id="三、内存图"><a href="#三、内存图" class="headerlink" title="三、内存图"></a>三、内存图</h2><p>1、内存：“内存条”，所有软件，运行起来都会进入内存中，占用内存，在java世界里，将内存划分为5块<br>2、五块：<br>a.栈（stack）<br>主要运行方法，方法的运行都会进栈内存运行，运行完毕后，需要“弹栈”，为了腾出空间</p><p>b.堆（Heap）<br>保存的是对象，数组，每new一次，都会在堆内存中开辟空间，并为这个空间分配一个地址值<br>堆内存中的数据都是有默认值的</p><p>c.方法区（Method Area）<br>代码的“预备区”，记录了类的信息以及方法的信息<br>方法区中主要保存class文件及其其中的信息<br>代码运行之前，需要先存进内存（方法区）</p><p>d.本地方法栈（Native  Method  Stack）:专门运行native方法（本地方法）<br>本地方法可以理解为堆对Java功能的扩充<br>有很多功能，Java语言实现不了，所以需要依靠本地方法完成（c语言编写）</p><p>e.寄存器(pc register)<br>和cpu有关</p><h2 id="四、二维数组"><a href="#四、二维数组" class="headerlink" title="四、二维数组"></a>四、二维数组</h2>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、方法的使用"><a href="#一、方法的使用" class="headerlink" title="一、方法的使用"></a>一、方法的使用</h2><p>1、简单方法定义（无参数返回值）<br>通用定义格式：<br>修饰符  返回值类型  方法名（参数）{<br>方法体<br>Return   结果<br>}</p><p>分为四种方法学习：<br>a.无参无返回值<br>b.有参无返回值<br>c.无参有返回值<br>d.有参有返回值</p><p>a.无参无返回值：<br>Public  static  void  方法名(){<br>方法体<br>}<br>注意事项：1）void关键字表示无返回值，写了void，就不要在方法中写return  结果<br>2）方法之间不能相互嵌套，方法之间是平级关系<br>3）方法的执行顺序只和调用顺序有关</p><p>b.有参无返回值：<br>Public  static  void  方法名(数据类型  变量名){<br>方法体<br>}</p><p>c.无参有返回值：<br>1）格式：<br>Public  static  返回值类型  方法名(){<br>方法体<br>Return  结果<br>}<br>2）调用：<br>a.打印调用：sout(方法名())<br>b.赋值调用：调用完之后用一个变量接收返回值的结果!!!!!!!极力推荐<br>数据类型  变量名  &#x3D;  方法名（）</p><p>d.有参有返回值<br>1）格式：<br>Public  static  返回值类型  方法名(参数){<br>方法体<br>Return  结果<br>}</p>]]></content>
       
       
       <categories>
