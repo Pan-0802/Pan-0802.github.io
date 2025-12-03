@@ -1,0 +1,723 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>web前置知识 | Pan的博客</title><meta name="author" content="Pan"><meta name="copyright" content="Pan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1.2.1.1 HTTP&#x2F;HTTPS 协议 请求方法   基础方法：GET（参数暴露 URL，长度限制）、POST（参数藏请求体，适合传敏感数据）  冷门但关键方法：OPTIONS（探测服务器允许的请求方法，SSRF &#x2F; 跨域漏洞常用）、PUT（文件上传漏洞可能利用）、DELETE（高危操作，部分靶机未限制导致文件删除）、HEAD（仅返回响应头，用于信息收集）    状态码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web前置知识">
+<meta property="og:url" content="https://pan-0802.github.io/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Pan的博客">
+<meta property="og:description" content="1.2.1.1 HTTP&#x2F;HTTPS 协议 请求方法   基础方法：GET（参数暴露 URL，长度限制）、POST（参数藏请求体，适合传敏感数据）  冷门但关键方法：OPTIONS（探测服务器允许的请求方法，SSRF &#x2F; 跨域漏洞常用）、PUT（文件上传漏洞可能利用）、DELETE（高危操作，部分靶机未限制导致文件删除）、HEAD（仅返回响应头，用于信息收集）    状态码">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pan-0802.github.io/img/kun.jpg">
+<meta property="article:published_time" content="2025-12-02T06:36:40.000Z">
+<meta property="article:modified_time" content="2025-12-03T05:54:16.704Z">
+<meta property="article:author" content="Pan">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pan-0802.github.io/img/kun.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "web前置知识",
+  "url": "https://pan-0802.github.io/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/",
+  "image": "https://pan-0802.github.io/img/kun.jpg",
+  "datePublished": "2025-12-02T06:36:40.000Z",
+  "dateModified": "2025-12-03T05:54:16.704Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pan",
+      "url": "https://pan-0802.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://pan-0802.github.io/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web前置知识',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Pan的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">web前置知识</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">web前置知识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-02T06:36:40.000Z" title="发表于 2025-12-02 14:36:40">2025-12-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-03T05:54:16.704Z" title="更新于 2025-12-03 13:54:16">2025-12-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web/">web</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h4 id="1-2-1-1-HTTP-HTTPS-协议"><a href="#1-2-1-1-HTTP-HTTPS-协议" class="headerlink" title="1.2.1.1 HTTP&#x2F;HTTPS 协议"></a>1.2.1.1 HTTP&#x2F;HTTPS 协议</h4><ol>
+<li>请求方法</li>
+</ol>
+<ul>
+<li><p>基础方法：GET（参数暴露 URL，长度限制）、POST（参数藏请求体，适合传敏感数据）</p>
+</li>
+<li><p>冷门但关键方法：OPTIONS（探测服务器允许的请求方法，SSRF &#x2F; 跨域漏洞常用）、PUT（文件上传漏洞可能利用）、DELETE（高危操作，部分靶机未限制导致文件删除）、HEAD（仅返回响应头，用于信息收集）</p>
+</li>
+</ul>
+<ol start="2">
+<li>状态码</li>
+</ol>
+<ul>
+<li><p>2xx 成功：200 OK（正常响应，需抓包分析内容）、204 No Content（无响应体，可能藏隐写）</p>
+</li>
+<li><p>3xx 跳转：301 永久重定向（域名跳转跟踪）、302 临时重定向（常用来绕过访问限制）、304 Not Modified（缓存利用，可能绕过更新检测）</p>
+</li>
+<li><p>4xx 客户端错：401 未授权（需爆破 &#x2F; 伪造凭证）、403 禁止访问（目录遍历 &#x2F; 权限绕过突破口）、404 未找到（路径猜解 &#x2F; 目录扫描）、405 方法不允许（结合 OPTIONS 探测替代方法）</p>
+</li>
+<li><p>5xx 服务器错：500 内部错误（代码执行 &#x2F; 注入漏洞触发）、502 网关错误（SSRF 探测内网服务）</p>
+</li>
+</ul>
+<ol start="3">
+<li>核心请求头（伪造 &#x2F; 篡改高频）</li>
+</ol>
+<ul>
+<li><p>Host：指定目标域名，SSRF &#x2F; 主机头注入利用</p>
+</li>
+<li><p>Referer：来源验证绕过（伪造合法来源）</p>
+</li>
+<li><p>User-Agent：伪装客户端（手机 &#x2F; 爬虫 &#x2F; 特定浏览器，绕过客户端检测）</p>
+</li>
+<li><p>Cookie：会话维持（伪造 admin Cookie、Session 劫持）</p>
+</li>
+<li><p>Content-Type：请求体格式（application&#x2F;x-www-form-urlencoded、multipart&#x2F;form-data（文件上传）、application&#x2F;json（JSON 注入））</p>
+</li>
+<li><p>Authorization：基础认证 &#x2F; Bearer Token（爆破 &#x2F; 伪造凭证）</p>
+</li>
+<li><p>X-Forwarded-For&#x2F;X-Real-IP：伪造 IP（绕过 IP 白名单限制）</p>
+</li>
+</ul>
+<ol start="4">
+<li>响应头（安全配置与漏洞点）</li>
+</ol>
+<ul>
+<li><p>Set-Cookie：会话创建（关注 HttpOnly、Secure、SameSite 属性，XSS 利用关键）</p>
+</li>
+<li><p>Content-Security-Policy（CSP）：XSS 防护策略（分析绕过规则）</p>
+</li>
+<li><p>Access-Control-Allow-Origin（CORS）：跨域资源共享（配置不当导致跨域漏洞）</p>
+</li>
+</ul>
+<ol start="5">
+<li>HTTPS 核心（中间人攻击 &#x2F; 证书问题）</li>
+</ol>
+<ul>
+<li><p>TLS 握手流程（证书验证环节，CTF 中可能出现伪造证书 &#x2F; 弱加密套件漏洞）</p>
+</li>
+<li><p>证书组成（公钥、签名，漏洞场景：自签名证书、过期证书、域名不匹配）</p>
+</li>
+<li><p>常见加密套件（ECDHE-RSA-AES256-GCM-SHA384 等，弱套件如 DES-CBC 可能被破解）</p>
+</li>
+</ul>
+<p><strong>核心理解</strong>：HTTP 是明文传输（抓包可直接获取数据），HTTPS 通过 TLS 加密传输层（抓包需配置证书解密）；CTF 中协议漏洞多源于 “头字段篡改”“方法滥用”“状态码误判”。</p>
+<h4 id="1-2-1-2-HTML-CSS-JavaScript-基础"><a href="#1-2-1-2-HTML-CSS-JavaScript-基础" class="headerlink" title="1.2.1.2 HTML&#x2F;CSS&#x2F;JavaScript 基础"></a>1.2.1.2 HTML&#x2F;CSS&#x2F;JavaScript 基础</h4><ol>
+<li>HTML 核心（漏洞载体与信息收集）</li>
+</ol>
+<ul>
+<li><p>基础标签：<code>表单提交，关注action/method/input属性）、</code>触发核心标签，src&#x2F;innerHTML 属性）、<code>&gt;</code>（XSS 触发：onerror 事件、src 伪造）、<code>跳转链接，href注入）、</code>域 &#x2F; SSRF 利用）</p>
+</li>
+<li><p>表单元素：input（type&#x3D;text&#x2F;password&#x2F;hidden，hidden 字段可能藏关键参数）、select&#x2F;textarea（前端数据提交载体）</p>
+</li>
+<li><p>特殊标签：<code>&lt;meta&gt;</code>（跳转 &#x2F; 编码设置，如 http-equiv&#x3D;”refresh”）、<code>&gt;</code>（注释中可能藏 flag &#x2F; 路径）</p>
+</li>
+</ul>
+<ol start="2">
+<li>CSS 核心（前端隐藏与信息挖掘）</li>
+</ol>
+<ul>
+<li><p>选择器：id 选择器（#id）、类选择器（.class）、标签选择器（用于定位前端关键元素）</p>
+</li>
+<li><p>关键属性：display:none（隐藏内容，CTF 中常用来藏 flag）、visibility:hidden（隐藏但占位置）、position:absolute（绝对定位，可能覆盖关键按钮）</p>
+</li>
+<li><p>伪类：:hover&#x2F;:active（交互触发的样式变化，可能暴露隐藏功能）</p>
+</li>
+</ul>
+<ol start="3">
+<li>JavaScript 核心</li>
+</ol>
+<ul>
+<li><p>DOM 操作（DOM 型 XSS 基础）</p>
+<ul>
+<li><p>核心对象：document（document.cookie 获取 Cookie、document.getElementById 定位元素）、window（window.location 跳转、window.alert 弹窗）</p>
+</li>
+<li><p>危险方法：innerHTML（直接插入 HTML，XSS 重灾区）、eval ()（代码执行，注入恶意 JS）、setTimeout ()&#x2F;setInterval ()（定时执行代码）</p>
+</li>
+</ul>
+</li>
+<li><p>事件机制（交互触发漏洞）</p>
+<ul>
+<li><p>常用事件：onclick（点击）、onload（页面加载）、onerror（错误触发）、oninput（输入触发）</p>
+</li>
+<li><p>事件冒泡 &#x2F; 委托（影响 XSS 触发范围）</p>
+</li>
+</ul>
+</li>
+<li><p>异步请求（抓包分析关键）</p>
+<ul>
+<li><p>AJAX：XMLHttpRequest 对象（open () 方法的请求方式 &#x2F; URL，send () 的参数）</p>
+</li>
+<li><p>Fetch API：Promise 风格请求（关注 method、body、headers 参数，常藏后端接口）</p>
+</li>
+</ul>
+</li>
+<li><p>数据处理（前端加密 &#x2F; 解密）</p>
+<ul>
+<li><p>字符串方法：slice ()、substr ()、replace ()（CTF 中常用来破解前端简单加密）</p>
+</li>
+<li><p>编码函数：encodeURI ()、encodeURIComponent ()（URL 编码绕过）</p>
+</li>
+<li><p>JSON 处理：JSON.parse ()&#x2F;JSON.stringify ()（JSON 注入 &#x2F; 数据泄露）</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>核心理解</strong>：HTML 是页面结构载体，CSS 控制样式，JavaScript 实现交互；CTF 中前端漏洞（XSS、逻辑绕过）本质是 “用户输入未被过滤就插入页面 &#x2F; 执行代码”。</p>
+<h4 id="1-2-1-3-数据库基础（MySQL、MongoDB-等）"><a href="#1-2-1-3-数据库基础（MySQL、MongoDB-等）" class="headerlink" title="1.2.1.3 数据库基础（MySQL、MongoDB 等）"></a>1.2.1.3 数据库基础（MySQL、MongoDB 等）</h4><ol>
+<li>MySQL 基础（SQL 注入核心）</li>
+</ol>
+<ul>
+<li><p>语法规则：</p>
+<ul>
+<li><p>基础查询：<code>SELECT 字段 FROM 表名 WHERE 条件</code>（联合查询：UNION SELECT，CTF 注入核心）</p>
+</li>
+<li><p>子查询：<code>SELECT * FROM users WHERE id IN (SELECT id FROM admin)</code></p>
+</li>
+<li><p>限制结果：<code>LIMIT 偏移量, 条数</code>（注入时逐行提取数据）</p>
+</li>
+<li><p>注释符：<code>#</code>、<code>-- </code>（空格必须）、<code>/* */</code>（注入时截断 SQL 语句）</p>
+</li>
+</ul>
+</li>
+<li><p>核心函数（注入数据提取）：</p>
+<ul>
+<li><p>字符串拼接：<code>CONCAT(字段1,字段2)</code>、<code>GROUP_CONCAT(字段 SEPARATOR &#39;,&#39;)</code>（批量提取数据）</p>
+</li>
+<li><p>字符串截取：<code>SUBSTR(字段, 起始位置, 长度)</code>、<code>MID()</code></p>
+</li>
+<li><p>长度计算：<code>LENGTH(字段)</code>（盲注时判断数据长度）</p>
+</li>
+<li><p>编码转换：<code>HEX()</code>、<code>UNHEX()</code>（绕过特殊字符过滤）</p>
+</li>
+<li><p>其他：<code>MD5()</code>（密码破解）、<code>USER()</code>（当前数据库用户）、<code>DATABASE()</code>（当前数据库名）</p>
+</li>
+</ul>
+</li>
+<li><p>系统库与表（注入信息收集）：</p>
+<ul>
+<li><p><code>information_schema</code>：MySQL 元数据库，<code>tables</code>表存所有表名，<code>columns</code>表存所有列名</p>
+</li>
+<li><p>关键查询：<code>SELECT table_name FROM information_schema.tables WHERE table_schema=DATABASE()</code></p>
+</li>
+</ul>
+</li>
+<li><p>数据类型：INT（数字型注入）、VARCHAR&#x2F;TEXT（字符型注入，需闭合引号）</p>
+</li>
+</ul>
+<ol start="2">
+<li>MongoDB 基础（NoSQL 注入考点）</li>
+</ol>
+<ul>
+<li><p>数据结构：文档（Document）、集合（Collection）、数据库（Database），无固定表结构</p>
+</li>
+<li><p>核心查询语法：</p>
+<ul>
+<li><p>基础查询：<code>db.集合名.find(&#123;查询条件&#125;)</code>（如<code>db.users.find(&#123;username:&quot;admin&quot;&#125;)</code>）</p>
+</li>
+<li><p>比较操作符：<code>$eq</code>（等于）、<code>$ne</code>（不等于）、<code>$gt</code>（大于）、<code>$lt</code>（小于）（NoSQL 注入常用，如<code>&#123;&quot;username&quot;:&#123;&quot;$ne&quot;:&quot;test&quot;&#125;&#125;</code>）</p>
+</li>
+<li><p>逻辑操作符：<code>$and</code>、<code>$or</code>、<code>$not</code></p>
+</li>
+<li><p>正则查询：<code>db.集合名.find(&#123;字段:/正则表达式/&#125;)</code>（注入时绕过登录，如<code>&#123;&quot;username&quot;:/admin/&#125;</code>）</p>
+</li>
+</ul>
+</li>
+<li><p>注入相关：</p>
+<ul>
+<li><p><code>$where</code>操作符：支持 JavaScript 表达式（如<code>&#123;&quot;$where&quot;:&quot;this.username==&#39;admin&#39;&quot;&#125;</code>，注入时构造<code>&#123;&quot;$where&quot;:&quot;1==1&quot;&#125;</code>）</p>
+</li>
+<li><p>字段不存在判断：<code>&#123;&quot;username&quot;:&#123;&quot;$exists&quot;:true&#125;&#125;</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>核心理解</strong>：SQL 注入的本质是 “用户输入被当作 SQL 语句执行”，NoSQL 注入是 “用户输入被当作查询条件解析”；CTF 中需掌握 “如何通过注入语法获取数据库结构与数据”。</p>
+<p><em><strong>其他数据库请自行拓展相关知识面：如oralce、mssql、postsql等等。</strong></em></p>
+<h4 id="1-2-1-4-操作系统基础（Linux、Windows）"><a href="#1-2-1-4-操作系统基础（Linux、Windows）" class="headerlink" title="1.2.1.4 操作系统基础（Linux、Windows）"></a>1.2.1.4 操作系统基础（Linux、Windows）</h4><ol>
+<li>Linux 系统（Web &#x2F; 靶机高频）</li>
+</ol>
+<ul>
+<li><p>常用命令（命令执行漏洞核心）：</p>
+<ul>
+<li><p>信息收集：<code>ls</code>（列目录）、<code>pwd</code>（当前路径）、<code>whoami</code>（当前用户）、<code>id</code>（用户权限）、<code>uname -a</code>（系统版本）</p>
+</li>
+<li><p>文件操作：<code>cat</code>（读文件）、<code>more/less</code>（分屏读）、<code>head/tail</code>（读首尾行）、<code>find / -name 文件名</code>（查找文件，如 flag）</p>
+</li>
+<li><p>网络操作：<code>ifconfig/ip addr</code>（查看 IP）、<code>netstat -tuln</code>（查看开放端口）、<code>ping</code>（探测存活）</p>
+</li>
+<li><p>权限操作：<code>chmod +x 脚本</code>（加执行权限）、<code>sudo</code>（提权）</p>
+</li>
+</ul>
+</li>
+<li><p>目录结构（文件读取漏洞目标）：</p>
+<ul>
+<li><p>敏感目录：<code>/etc/passwd</code>（用户列表）、<code>/etc/shadow</code>（加密密码，需 root 权限）、<code>/var/log</code>（日志文件）、<code>/tmp</code>（临时目录，可写文件）</p>
+</li>
+<li><p>Web 目录：<code>/var/www/html</code>（Apache 默认）、<code>/usr/share/nginx/html</code>（Nginx 默认）</p>
+</li>
+</ul>
+</li>
+<li><p>命令拼接（命令执行绕过）：</p>
+<ul>
+<li><p>管道符：<code>|</code>（执行后面命令）、<code>||</code>（前面失败则执行后面）、<code>&amp;&amp;</code>（前面成功则执行后面）</p>
+</li>
+<li><p>重定向：<code>&gt;</code>（覆盖写文件）、<code>&gt;&gt;</code>（追加写文件）、<code>2&gt;&amp;1</code>（错误输出重定向）</p>
+</li>
+<li><p>空格替代：<code>$&#123;IFS&#125;</code>、<code>&lt;</code>（绕过空格过滤，如<code>cat$&#123;IFS&#125;/etc/passwd</code>）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>Windows 系统（部分靶机 &#x2F; 内网场景）</li>
+</ol>
+<ul>
+<li><p>常用命令：</p>
+<ul>
+<li><p>信息收集：<code>dir</code>（列目录）、<code>cd</code>（切换目录）、<code>whoami</code>（当前用户）、<code>ipconfig</code>（IP 信息）、<code>tasklist</code>（进程列表）</p>
+</li>
+<li><p>文件操作：<code>type</code>（读文件）、<code>more</code>（分屏读）、<code>findstr &quot;关键词&quot; 文件名</code>（查找内容）</p>
+</li>
+<li><p>网络操作：<code>ping</code>、<code>netstat -ano</code>（查看端口与进程 PID）、<code>net user</code>（用户列表）</p>
+</li>
+</ul>
+</li>
+<li><p>目录结构：</p>
+<ul>
+<li><p>敏感目录：<code>C:\Windows\system32</code>（系统命令目录）、<code>C:\Users\Administrator\Desktop</code>（管理员桌面，可能有 flag）、<code>C:\Program Files</code>（软件安装目录）</p>
+</li>
+<li><p>Web 目录：<code>C:\xampp\htdocs</code>（XAMPP 默认）、<code>C:\wamp\www</code>（WAMP 默认）</p>
+</li>
+</ul>
+</li>
+<li><p>权限基础：管理员权限（可执行更多命令，如<code>net localgroup administrators</code>添加管理员）、普通用户权限（限制部分操作）</p>
+</li>
+</ul>
+<p><strong>核心理解</strong>：CTF 中命令执行漏洞本质是 “用户输入被当作系统命令执行”；需掌握 “常用命令的作用”“敏感文件路径”“命令拼接绕过技巧”。</p>
+<p><em><strong>除了上述内容，请自行拓展相关知识面，如linux 的发行版本、内核版本相关的提权漏洞以及应用，和不同linux系统的基本使用方法，红帽、debian、cots、Ubuntu，windows server等等</strong></em></p>
+<h3 id="1-2-1-5-计算机网络基础（TCP-IP、DNS、端口）"><a href="#1-2-1-5-计算机网络基础（TCP-IP、DNS、端口）" class="headerlink" title="1.2.1.5 计算机网络基础（TCP&#x2F;IP、DNS、端口）"></a>1.2.1.5 计算机网络基础（TCP&#x2F;IP、DNS、端口）</h3><ol>
+<li>TCP&#x2F;IP 四层模型（CTF 流量分析 &#x2F; 漏洞原理核心）</li>
+</ol>
+<ul>
+<li><p>四层完整拆解 + CTF 考点：</p>
+<ul>
+<li><p>应用层：HTTP、HTTPS、FTP、SSH、DNS、SMB、Telnet（漏洞高发层，如 FTP 匿名登录、SSH 弱口令、SMB 永恒之蓝漏洞）</p>
+</li>
+<li><p>传输层：TCP（可靠传输）、UDP（不可靠传输）（CTF 中协议漏洞载体，如 TCP 三次握手漏洞、UDP 广播风暴利用）</p>
+</li>
+<li><p>网络层：IP（地址转发）、ICMP（控制消息）、ARP（地址解析）（考点：IP 欺骗、ICMP 隧道通信、ARP 欺骗断网）</p>
+</li>
+<li><p>数据链路层：以太网帧、MAC 地址（考点：MAC 地址伪造、交换机端口劫持、流量嗅探前提）</p>
+</li>
+</ul>
+</li>
+<li><p>数据传输流程（流量分析基础）：</p>
+<ul>
+<li><p>封装过程：应用层数据 → 传输层加端口 → 网络层加 IP → 数据链路层加 MAC → 物理层传输</p>
+</li>
+<li><p>解封装过程：反向拆解，最终提取应用层数据（CTF 中 PCAP 流量分析核心步骤）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>TCP 协议核心（可靠传输与漏洞点）</li>
+</ol>
+<ul>
+<li><p>三次握手（连接建立，CTF 攻击场景）：</p>
+<ul>
+<li><p>流程：客户端 SYN → 服务器 SYN+ACK → 客户端 ACK</p>
+</li>
+<li><p>漏洞利用：SYN Flood 攻击（发送大量 SYN 包不回 ACK，耗尽服务器连接资源）、伪造 SYN 包（欺骗服务器建立连接，获取敏感响应）</p>
+</li>
+</ul>
+</li>
+<li><p>四次挥手（连接关闭，流量分析考点）：</p>
+<ul>
+<li><p>流程：主动方 FIN → 被动方 ACK → 被动方 FIN → 主动方 ACK</p>
+</li>
+<li><p>分析要点：异常关闭（如无 FIN 包直接 RST，可能是服务崩溃 &#x2F; 攻击触发）</p>
+</li>
+</ul>
+</li>
+<li><p>关键标志位（流量包分析核心）：</p>
+<ul>
+<li><p>SYN（建立连接）、ACK（确认）、FIN（关闭连接）、RST（强制关闭）、PSH（推送数据）</p>
+</li>
+<li><p>CTF 应用：通过标志位序列判断连接状态（如大量 SYN+ACK 无后续 ACK，可能是端口开放但无服务响应）</p>
+</li>
+</ul>
+</li>
+<li><p>滑动窗口与拥塞控制（进阶）：</p>
+<ul>
+<li>流量分析中判断网络状况（如窗口为 0 可能是网络拥堵，需结合漏洞场景分析）</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>UDP 协议核心（无连接特性与 CTF 利用）</li>
+</ol>
+<ul>
+<li><p>核心特点：无连接、不可靠、速度快（无需握手 &#x2F; 挥手）</p>
+</li>
+<li><p>常见应用服务：DNS（53 端口）、DHCP（67&#x2F;68 端口）、TFTP（69 端口）、SNMP（161 端口）</p>
+</li>
+<li><p>CTF 漏洞场景：</p>
+<ul>
+<li><p>UDP 广播包泄露（如 DHCP 包泄露内网 IP 段、SNMP 包泄露设备信息）</p>
+</li>
+<li><p>无连接特性滥用（如 UDP 反射攻击、伪造 UDP 包欺骗服务）</p>
+</li>
+<li><p>弱服务爆破（如 TFTP 匿名上传 &#x2F; 下载文件、SNMP 社区字符串爆破）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>DNS 协议（域名解析）</li>
+</ol>
+<ul>
+<li><p>核心功能：将域名（如 <a target="_blank" rel="noopener" href="https://www.xxx.com/">www.xxx.com</a>）解析为 IP 地址（如 192.168.1.1）</p>
+</li>
+<li><p>关键查询类型：</p>
+<ul>
+<li><p>A 记录：域名→IPv4 地址（基础解析，判断目标服务器 IP）</p>
+</li>
+<li><p>AAAA 记录：域名→IPv6 地址（少数靶机涉及 IPv6 场景）</p>
+</li>
+<li><p>CNAME 记录：域名别名（子域名劫持漏洞常用，如别名指向不存在的域名可劫持）</p>
+</li>
+<li><p>MX 记录：邮件服务器地址（邮件伪造 &#x2F; 爆破考点）</p>
+</li>
+<li><p>TXT 记录：文本信息（CTF 高频藏 flag 位置，如 <code>dig txt xxx.com</code> 提取 flag）</p>
+</li>
+<li><p>NS 记录：域名服务器（判断权威 DNS，可能存在 DNS 缓存投毒漏洞）</p>
+</li>
+</ul>
+</li>
+<li><p>解析流程（漏洞利用基础）：</p>
+<ul>
+<li><p>本地 DNS 缓存 → 根服务器 → 顶级域服务器 → 权威 DNS 服务器</p>
+</li>
+<li><p>漏洞场景：DNS 缓存投毒（篡改本地缓存，指向恶意 IP）、DNS 劫持（中间篡改解析结果）</p>
+</li>
+</ul>
+</li>
+<li><p>CTF 常用操作：</p>
+<ul>
+<li><p>子域名爆破（工具：Subfinder、Amass，查找隐藏后台域名如 <a target="_blank" rel="noopener" href="https://admin.xxx.com/">admin.xxx.com</a>）</p>
+</li>
+<li><p>反向 DNS 解析（通过 IP 查域名，扩大攻击面）</p>
+</li>
+<li><p>DNS 隧道（通过 DNS 包传输数据，绕过防火墙限制，CTF 流量分析可能遇到）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>端口与服务（信息收集核心）</li>
+</ol>
+<ul>
+<li><p>端口基础：</p>
+<ul>
+<li><p>端口范围：0-65535（0-1023 为知名端口，1024-49151 为注册端口，49152+ 为动态端口）</p>
+</li>
+<li><p>端口状态（Nmap 扫描结果）：开放（服务监听）、关闭（无服务监听）、过滤（防火墙拦截）</p>
+</li>
+</ul>
+</li>
+<li><p>CTF 高频端口与对应服务 &#x2F; 漏洞：</p>
+<ul>
+<li><p>21&#x2F;FTP：文件传输协议（匿名登录、弱口令爆破、文件上传漏洞）</p>
+</li>
+<li><p>22&#x2F;SSH：远程登录（弱口令、密钥登录、SSH 隧道）</p>
+</li>
+<li><p>80&#x2F;HTTP：Web 服务（目录扫描、漏洞探测核心端口）</p>
+</li>
+<li><p>443&#x2F;HTTPS：加密 Web 服务（证书分析、SSL 漏洞如 Heartbleed）</p>
+</li>
+<li><p>3306&#x2F;MySQL：数据库服务（弱口令爆破、远程连接注入）</p>
+</li>
+<li><p>3389&#x2F;RDP：Windows 远程桌面（弱口令、暴力破解、RDP 劫持）</p>
+</li>
+<li><p>5432&#x2F;PostgreSQL：数据库服务（弱口令、未授权访问）</p>
+</li>
+<li><p>6379&#x2F;Redis：缓存数据库（未授权访问、文件写入 Getshell）</p>
+</li>
+<li><p>8080&#x2F;8081：Web 中间件（Tomcat、Jetty，可能存在后台管理弱口令）</p>
+</li>
+<li><p>27017&#x2F;MongoDB：NoSQL 数据库（未授权访问、弱口令）</p>
+</li>
+</ul>
+</li>
+<li><p>端口扫描工具与技巧（CTF 信息收集必用）：</p>
+<ul>
+<li><p>Nmap 常用参数：<code>nmap -sS 目标IP</code>（SYN 扫描，隐蔽快速）、<code>nmap -sV 目标IP</code>（探测服务版本）、<code>nmap -p- 目标IP</code>（全端口扫描）</p>
+</li>
+<li><p>绕过防火墙：<code>nmap -f</code>（分片扫描）、<code>nmap -sT</code>（TCP 全连接扫描，适用于防火墙允许的场景）</p>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="6">
+<li>网络地址与路由（内网渗透基础）</li>
+</ol>
+<ul>
+<li><p>IP 地址分类（CTF 内网场景）：</p>
+<ul>
+<li><p>A 类（1.0.0.0-126.255.255.255）、B 类（128.0.0.0-191.255.255.255）、C 类（192.0.0.0-223.255.255.255）</p>
+</li>
+<li><p>私有 IP 段（内网靶机常用）：10.0.0.0&#x2F;8、172.16.0.0&#x2F;12、192.168.0.0&#x2F;16</p>
+</li>
+</ul>
+</li>
+<li><p>子网掩码与网关（路由判断）：</p>
+<ul>
+<li><p>子网掩码：区分网络位与主机位（如 255.255.255.0 对应 &#x2F;24 子网）</p>
+</li>
+<li><p>网关：内网主机访问外网的出口（CTF 中 SSRF 探测内网网关，如 192.168.1.1）</p>
+</li>
+</ul>
+</li>
+<li><p>路由表（流量转发分析）：</p>
+<ul>
+<li>核心作用：决定数据转发路径（CTF 中内网渗透时，通过路由表判断可达网段）</li>
+</ul>
+</li>
+</ul>
+<p><strong>核心理解</strong>：计算机网络基础是 CTF 信息收集、流量分析、漏洞利用的底层支撑 ——TCP&#x2F;UDP 协议分析帮助解读流量包中的攻击痕迹，DNS 解析助力找到隐藏目标，端口扫描定位可攻击服务，IP 与路由知识支撑内网渗透；CTF 中网络相关考点本质是 “利用协议设计缺陷或配置不当，获取目标信息或触发漏洞”。</p>
+<h2 id="1-2-1-6-Python语言基础（Web安全必备）"><a href="#1-2-1-6-Python语言基础（Web安全必备）" class="headerlink" title="1.2.1.6 Python语言基础（Web安全必备）"></a>1.2.1.6 Python语言基础（Web安全必备）</h2><h3 id="关键掌握点：核心语法、安全相关库、实战场景"><a href="#关键掌握点：核心语法、安全相关库、实战场景" class="headerlink" title="关键掌握点：核心语法、安全相关库、实战场景"></a>关键掌握点：核心语法、安全相关库、实战场景</h3><h4 id="1-核心语法速通"><a href="#1-核心语法速通" class="headerlink" title="1. 核心语法速通"></a>1. 核心语法速通</h4><ul>
+<li><p>基础数据类型与结构：字符串（str）、列表（list）、字典（dict）、元组（tuple），重点掌握字符串拼接、切片操作（用于构造Payload）、字典键值对解析（用于处理HTTP请求参数）。</p>
+</li>
+<li><p>流程控制：条件判断（if-elif-else）、循环（for&#x2F;while），常用于批量测试漏洞（如枚举目录、爆破参数）。</p>
+</li>
+<li><p>函数与模块：自定义函数、import导入模块，核心掌握<code>os</code>、<code>sys</code>、<code>requests</code>等安全常用模块的调用方式。</p>
+</li>
+<li><p>异常处理：try-except语句，用于处理漏洞探测中的网络异常、参数错误等问题，避免脚本中断。</p>
+</li>
+</ul>
+<h4 id="2-Web安全核心库实战"><a href="#2-Web安全核心库实战" class="headerlink" title="2. Web安全核心库实战"></a>2. Web安全核心库实战</h4><ul>
+<li><p>requests库（HTTP请求发送）：</p>
+</li>
+<li><p>核心功能：发送GET&#x2F;POST请求、设置请求头（Headers）、携带Cookie、处理会话（Session）、文件上传模拟。</p>
+</li>
+<li><p>实战示例：</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送带Cookie的GET请求</span></span><br><span class="line"></span><br><span class="line">headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64)&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">cookies = &#123;<span class="string">&quot;session&quot;</span>: <span class="string">&quot;abc123xyz&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">response = requests.get(<span class="string">&quot;http://target.com/user/info&quot;</span>, headers=headers, cookies=cookies)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(response.text)  <span class="comment"># 打印响应内容</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 发送POST表单请求</span></span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;test&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">post_response = requests.post(<span class="string">&quot;http://target.com/login&quot;</span>, data=data)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>urllib库（URL处理与请求）：</p>
+</li>
+<li><p>核心功能：URL编码&#x2F;解码（urllib.parse.quote&#x2F;unescape）、构造URL请求、处理代理。</p>
+</li>
+<li><p>实战示例：URL编码Payload规避WAF</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> quote</span><br><span class="line"></span><br><span class="line">payload = <span class="string">&quot;and 1=1 union select 1,flag from flag&quot;</span></span><br><span class="line"></span><br><span class="line">encoded_payload = quote(payload)  <span class="comment"># 对Payload进行URL编码</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">f&quot;http://target.com/index.php?id=1<span class="subst">&#123;encoded_payload&#125;</span>&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>subprocess库（系统命令执行）：</p>
+</li>
+<li><p>核心功能：调用系统命令、获取命令执行结果，常用于编写漏洞利用脚本（如反弹Shell、执行系统命令）。</p>
+</li>
+<li><p>实战示例：执行系统命令并获取输出</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">cmd = <span class="string">&quot;whoami&quot;</span></span><br><span class="line"></span><br><span class="line">result = subprocess.Popen(cmd, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr=subprocess.PIPE)</span><br><span class="line"></span><br><span class="line">output = result.stdout.read().decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(output)  <span class="comment"># 输出命令执行结果</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>socket库（网络编程基础）：</p>
+</li>
+<li><p>核心功能：创建TCP&#x2F;UDP连接、发送&#x2F;接收数据，常用于编写简单的端口扫描脚本、反弹Shell接收端。</p>
+</li>
+<li><p>实战示例：简单的TCP端口扫描</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">scan_port</span>(<span class="params">ip, port</span>):</span><br><span class="line"></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"></span><br><span class="line">s.settimeout(<span class="number">1</span>) </span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line"></span><br><span class="line">s.connect((ip, port))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;端口 <span class="subst">&#123;port&#125;</span> 开放&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;端口 <span class="subst">&#123;port&#125;</span> 关闭&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line"></span><br><span class="line">s.close()</span><br><span class="line"></span><br><span class="line">scan_port(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">8080</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Web安全实战场景应用"><a href="#3-Web安全实战场景应用" class="headerlink" title="3. Web安全实战场景应用"></a>3. Web安全实战场景应用</h4><ul>
+<li><p>漏洞探测脚本：利用requests库批量发送请求，检测SQL注入、XSS等漏洞（如遍历参数值判断响应差异）。</p>
+</li>
+<li><p>EXP编写：针对特定漏洞（如ThinkPHP RCE、Log4j2），使用Python编写漏洞利用脚本，自动化执行攻击流程。</p>
+</li>
+<li><p>数据处理：解析HTTP响应内容（如提取Cookie、提取敏感数据）、处理扫描工具输出结果（如整理sqlmap扫描报告）。</p>
+</li>
+<li><p>工具扩展：通过Python编写Burp Suite插件（如自定义Payload生成器、漏洞检测规则），扩展工具功能。</p>
+</li>
+</ul>
+<h4 id="4-必备学习资源与工具"><a href="#4-必备学习资源与工具" class="headerlink" title="4. 必备学习资源与工具"></a>4. 必备学习资源与工具</h4><ul>
+<li><p>在线环境：Python Tutor（可视化代码执行流程）、Replit（在线编写运行Python代码，无需本地配置）。</p>
+</li>
+<li><p>学习文档：Python官方文档（docs.python.org）、requests库官方文档（requests.readthedocs.io）。</p>
+</li>
+<li><p>实战项目：CTF中常见的Python脚本案例（如目录扫描脚本、SQL盲注脚本）、GitHub上的安全工具源码阅读（如sqlmap、dirsearch）。</p>
+</li>
+</ul>
+<p><em><strong>要求达到能熟练使用py编写各种工具和脚本</strong></em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io">Pan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/">https://pan-0802.github.io/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://pan-0802.github.io" target="_blank">Pan的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">web</a></div><div class="post-share"><div class="social-share" data-image="/./img/kun.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/01/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E6%8C%87%E9%92%88/" title="C语言malloc使用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">C语言malloc使用</div></div><div class="info-2"><div class="info-item-1">9.6 指针和动态存储管理动态存储管理：就是在程序运行过程中向计算机申请分配一段存储单元或把早先申请的内存给计算机。malloc函数和free函数★malloc函数申请分配内存空间      ◆定义：void*malloc(unsinged size)      ◆返回：NULL或一个指针。      ◆说明：申请分配一个大小为size个字节的连续内存空间，如成功则返            回分配空间段的起始地址，否则返回NULL。 ★free函数是malloc函数的逆过程，释放一段空间     ◆定义：void free(ptr)           void *ptr     ◆返回：无     ◆说明：把指针ptr所指向的一段内存单元释放。  核心概念解释你提到了不太懂 malloc 和 exit，我用通俗的比喻来解释：A. malloc (Memory Allocation - 内存分配)想象你在去住旅馆： • 普通变量 (int a): 就像是你自己带了帐篷，编译器自动帮你找地方扎营，你不用操心。 • malloc: 就像你去前台（操作系统）说：“我要开一间房”。语法拆...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC82MTAxNi8zNzQ4Ng=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Pan</div><div class="author-info-description">We gon'be just fine</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Pan-0802"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Pan-0802" target="_blank" title="Github"><i class="fab fa-github" style="color: #hdhfbb;"></i></a><a class="social-icon" href="mailto:3466595379@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-1-HTTP-HTTPS-%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.</span> <span class="toc-text">1.2.1.1 HTTP&#x2F;HTTPS 协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-2-HTML-CSS-JavaScript-%E5%9F%BA%E7%A1%80"><span class="toc-number">2.</span> <span class="toc-text">1.2.1.2 HTML&#x2F;CSS&#x2F;JavaScript 基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-3-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%EF%BC%88MySQL%E3%80%81MongoDB-%E7%AD%89%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">1.2.1.3 数据库基础（MySQL、MongoDB 等）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-1-4-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%EF%BC%88Linux%E3%80%81Windows%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">1.2.1.4 操作系统基础（Linux、Windows）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-1-5-%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%EF%BC%88TCP-IP%E3%80%81DNS%E3%80%81%E7%AB%AF%E5%8F%A3%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">1.2.1.5 计算机网络基础（TCP&#x2F;IP、DNS、端口）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-1-6-Python%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%EF%BC%88Web%E5%AE%89%E5%85%A8%E5%BF%85%E5%A4%87%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">1.2.1.6 Python语言基础（Web安全必备）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%8E%8C%E6%8F%A1%E7%82%B9%EF%BC%9A%E6%A0%B8%E5%BF%83%E8%AF%AD%E6%B3%95%E3%80%81%E5%AE%89%E5%85%A8%E7%9B%B8%E5%85%B3%E5%BA%93%E3%80%81%E5%AE%9E%E6%88%98%E5%9C%BA%E6%99%AF"><span class="toc-number"></span> <span class="toc-text">关键掌握点：核心语法、安全相关库、实战场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%B8%E5%BF%83%E8%AF%AD%E6%B3%95%E9%80%9F%E9%80%9A"><span class="toc-number">1.</span> <span class="toc-text">1. 核心语法速通</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Web%E5%AE%89%E5%85%A8%E6%A0%B8%E5%BF%83%E5%BA%93%E5%AE%9E%E6%88%98"><span class="toc-number">2.</span> <span class="toc-text">2. Web安全核心库实战</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Web%E5%AE%89%E5%85%A8%E5%AE%9E%E6%88%98%E5%9C%BA%E6%99%AF%E5%BA%94%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">3. Web安全实战场景应用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E5%BF%85%E5%A4%87%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90%E4%B8%8E%E5%B7%A5%E5%85%B7"><span class="toc-number">4.</span> <span class="toc-text">4. 必备学习资源与工具</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/02/web/web%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86/" title="web前置知识">web前置知识</a><time datetime="2025-12-02T06:36:40.000Z" title="发表于 2025-12-02 14:36:40">2025-12-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/01/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E6%8C%87%E9%92%88/" title="C语言malloc使用">C语言malloc使用</a><time datetime="2025-12-01T06:36:40.000Z" title="发表于 2025-12-01 14:36:40">2025-12-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/30/Python/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/" title="CSV文件中查找内容">CSV文件中查找内容</a><time datetime="2025-11-30T08:36:40.000Z" title="发表于 2025-11-30 16:36:40">2025-11-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/28/C++/C++%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E6%8E%A7/" title="GKD运动操控">GKD运动操控</a><time datetime="2025-11-28T08:36:40.000Z" title="发表于 2025-11-28 16:36:40">2025-11-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/11/27/C++/C++%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E6%9C%AC%E5%AD%A6%E4%B9%A0/" title="C++面向对象编程">C++面向对象编程</a><time datetime="2025-11-27T08:36:40.000Z" title="发表于 2025-11-27 16:36:40">2025-11-27</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By Pan</span></div><div class="footer_custom_text">要缓慢而坚定地做自己能做的事情</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const loadLivere = (el, path) => {
+    window.livereOptions = {
+      refer: path || location.pathname
+    }
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyLivere = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if (isShuoshuo) {
+    'Livere' === 'Livere'
+      ? window.shuoshuoComment = { loadComment: loadLivere }
+      : window.loadOtherComment = loadLivere
+    return
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.2"></script></div></div></body></html>
