@@ -29,6 +29,31 @@
     
     
     <entry>
+      <title>stl常见容器及算法</title>
+      <link href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/"/>
+      <url>/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h2 id="常见容器-存储数据的“仓库”"><a href="#常见容器-存储数据的“仓库”" class="headerlink" title="常见容器 存储数据的“仓库”"></a>常见容器 存储数据的“仓库”</h2><p>容器主要分为三类：序列式容器、关联式容器和容器适配器。</p><h3 id="序列式容器-Sequence-Containers"><a href="#序列式容器-Sequence-Containers" class="headerlink" title="序列式容器 (Sequence Containers)"></a>序列式容器 (Sequence Containers)</h3><p>强调元素的线性存储。</p><table><thead><tr><th>容器</th><th>特点</th><th>适用场景</th></tr></thead><tbody><tr><td>std::vector</td><td>动态数组，后端插入快，支持随机访问。</td><td>首选容器。适用于频繁读取、末尾增删。</td></tr><tr><td>std::list</td><td>双向链表，任意位置增删快，不支持随机访问。</td><td>频繁在中间插入&#x2F;删除。</td></tr><tr><td>std::deque</td><td>双端队列，头尾增删都很快。</td><td>需要在两端进行操作。</td></tr></tbody></table><h3 id="用法示例"><a href="#用法示例" class="headerlink" title="用法示例"></a>用法示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; v = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">4</span>); <span class="comment">// 末尾添加</span></span><br><span class="line">cout &lt;&lt; v[<span class="number">0</span>];   <span class="comment">// 随机访问</span></span><br></pre></td></tr></table></figure><ol><li>std::vector —— 动态数组（最常用）<br>C 对比： 相当于一个会自动扩容的 int arr[]。</li></ol><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; v; </span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">10</span>); <span class="comment">// 在末尾添加元素（相当于自动 realloc）</span></span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">20</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, v[<span class="number">0</span>]); <span class="comment">// 支持像数组一样用 [] 访问</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 获取当前元素个数</span></span><br></pre></td></tr></table></figure><ol start="2"><li>std::string —— 字符串（救星）<br>C 对比： 彻底替代 char[] 和 char*。你再也不用担心 strcpy 溢出或 strcmp 麻烦了。</li></ol><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line">std::string s1 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">std::string s2 = <span class="string">&quot;world&quot;</span>;</span><br><span class="line">std::string s3 = s1 + s2; <span class="comment">// 直接相加连接字符串</span></span><br><span class="line"><span class="keyword">if</span> (s1 == s2) &#123; ... &#125;    <span class="comment">// 直接用 == 比较内容</span></span><br></pre></td></tr></table></figure><ol start="3"><li>std::map —— 键值对&#x2F;字典<br>C 对比： C 语言没有对应结构。它像是一个下标可以是任何类型的数组。\</li></ol><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line">std::map&lt;string, <span class="type">int</span>&gt; ages;</span><br><span class="line">ages[<span class="string">&quot;Tom&quot;</span>] = <span class="number">18</span>;  <span class="comment">// 把 &quot;Tom&quot; 映射到 18</span></span><br><span class="line">ages[<span class="string">&quot;Jack&quot;</span>] = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ages[<span class="string">&quot;Tom&quot;</span>]); <span class="comment">// 直接查出 18</span></span><br></pre></td></tr></table></figure><ol start="4"><li>std::set —— 集合<br>特点： 里面的元素会自动排序，且不允许重复。<br>用法： 适合用来去重。</li></ol><h2 id="常用算法（Algorithm）：处理数据的“工具”"><a href="#常用算法（Algorithm）：处理数据的“工具”" class="headerlink" title="常用算法（Algorithm）：处理数据的“工具”"></a>常用算法（Algorithm）：处理数据的“工具”</h2>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>期末总结</title>
       <link href="/2025/12/15/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E6%9C%9F%E6%9C%AB%E5%A4%A7%E5%A4%8D%E4%B9%A0/%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%E4%B8%8E%E6%8C%87%E9%92%88/"/>
       <url>/2025/12/15/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E6%9C%9F%E6%9C%AB%E5%A4%A7%E5%A4%8D%E4%B9%A0/%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%E4%B8%8E%E6%8C%87%E9%92%88/</url>

@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>stl常见容器及算法 | Pan的博客</title><meta name="author" content="Pan"><meta name="copyright" content="Pan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="常见容器 存储数据的“仓库”容器主要分为三类：序列式容器、关联式容器和容器适配器。 序列式容器 (Sequence Containers)强调元素的线性存储。    容器 特点 适用场景    std::vector 动态数组，后端插入快，支持随机访问。 首选容器。适用于频繁读取、末尾增删。   std::list 双向链表，任意位置增删快，不支持随机访问。 频繁在中间插入&#x2F;删除。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="stl常见容器及算法">
+<meta property="og:url" content="https://pan-0802.github.io/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Pan的博客">
+<meta property="og:description" content="常见容器 存储数据的“仓库”容器主要分为三类：序列式容器、关联式容器和容器适配器。 序列式容器 (Sequence Containers)强调元素的线性存储。    容器 特点 适用场景    std::vector 动态数组，后端插入快，支持随机访问。 首选容器。适用于频繁读取、末尾增删。   std::list 双向链表，任意位置增删快，不支持随机访问。 频繁在中间插入&#x2F;删除。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pan-0802.github.io/img/kun.jpg">
+<meta property="article:published_time" content="2026-01-11T00:36:40.000Z">
+<meta property="article:modified_time" content="2026-01-16T15:33:31.073Z">
+<meta property="article:author" content="Pan">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pan-0802.github.io/img/kun.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "stl常见容器及算法",
+  "url": "https://pan-0802.github.io/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/",
+  "image": "https://pan-0802.github.io/img/kun.jpg",
+  "datePublished": "2026-01-11T00:36:40.000Z",
+  "dateModified": "2026-01-16T15:33:31.073Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pan",
+      "url": "https://pan-0802.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://pan-0802.github.io/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'stl常见容器及算法',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Pan的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">stl常见容器及算法</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">stl常见容器及算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-11T00:36:40.000Z" title="发表于 2026-01-11 08:36:40">2026-01-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-16T15:33:31.073Z" title="更新于 2026-01-16 23:33:31">2026-01-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">450</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="常见容器-存储数据的“仓库”"><a href="#常见容器-存储数据的“仓库”" class="headerlink" title="常见容器 存储数据的“仓库”"></a>常见容器 存储数据的“仓库”</h2><p>容器主要分为三类：序列式容器、关联式容器和容器适配器。</p>
+<h3 id="序列式容器-Sequence-Containers"><a href="#序列式容器-Sequence-Containers" class="headerlink" title="序列式容器 (Sequence Containers)"></a>序列式容器 (Sequence Containers)</h3><p>强调元素的线性存储。</p>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>特点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>std::vector</td>
+<td>动态数组，后端插入快，支持随机访问。</td>
+<td>首选容器。适用于频繁读取、末尾增删。</td>
+</tr>
+<tr>
+<td>std::list</td>
+<td>双向链表，任意位置增删快，不支持随机访问。</td>
+<td>频繁在中间插入&#x2F;删除。</td>
+</tr>
+<tr>
+<td>std::deque</td>
+<td>双端队列，头尾增删都很快。</td>
+<td>需要在两端进行操作。</td>
+</tr>
+</tbody></table>
+<h3 id="用法示例"><a href="#用法示例" class="headerlink" title="用法示例"></a>用法示例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; v = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">4</span>); <span class="comment">// 末尾添加</span></span><br><span class="line">cout &lt;&lt; v[<span class="number">0</span>];   <span class="comment">// 随机访问</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>std::vector —— 动态数组（最常用）<br>C 对比： 相当于一个会自动扩容的 int arr[]。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line">std::vector&lt;<span class="type">int</span>&gt; v; </span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">10</span>); <span class="comment">// 在末尾添加元素（相当于自动 realloc）</span></span><br><span class="line">v.<span class="built_in">push_back</span>(<span class="number">20</span>);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, v[<span class="number">0</span>]); <span class="comment">// 支持像数组一样用 [] 访问</span></span><br><span class="line">v.<span class="built_in">size</span>(); <span class="comment">// 获取当前元素个数</span></span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>std::string —— 字符串（救星）<br>C 对比： 彻底替代 char[] 和 char*。你再也不用担心 strcpy 溢出或 strcmp 麻烦了。</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line">std::string s1 = <span class="string">&quot;hello&quot;</span>;</span><br><span class="line">std::string s2 = <span class="string">&quot;world&quot;</span>;</span><br><span class="line">std::string s3 = s1 + s2; <span class="comment">// 直接相加连接字符串</span></span><br><span class="line"><span class="keyword">if</span> (s1 == s2) &#123; ... &#125;    <span class="comment">// 直接用 == 比较内容</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>std::map —— 键值对&#x2F;字典<br>C 对比： C 语言没有对应结构。它像是一个下标可以是任何类型的数组。\</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;map&gt;</span></span></span><br><span class="line">std::map&lt;string, <span class="type">int</span>&gt; ages;</span><br><span class="line">ages[<span class="string">&quot;Tom&quot;</span>] = <span class="number">18</span>;  <span class="comment">// 把 &quot;Tom&quot; 映射到 18</span></span><br><span class="line">ages[<span class="string">&quot;Jack&quot;</span>] = <span class="number">20</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, ages[<span class="string">&quot;Tom&quot;</span>]); <span class="comment">// 直接查出 18</span></span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>std::set —— 集合<br>特点： 里面的元素会自动排序，且不允许重复。<br>用法： 适合用来去重。</li>
+</ol>
+<h2 id="常用算法（Algorithm）：处理数据的“工具”"><a href="#常用算法（Algorithm）：处理数据的“工具”" class="headerlink" title="常用算法（Algorithm）：处理数据的“工具”"></a>常用算法（Algorithm）：处理数据的“工具”</h2></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io">Pan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/">https://pan-0802.github.io/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://pan-0802.github.io" target="_blank">Pan的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post-share"><div class="social-share" data-image="/./img/kun.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/%E5%9F%BA%E6%9C%AC%E7%BB%83%E4%B9%A0/" title="牛客新手入门130"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">牛客新手入门130</div></div><div class="info-2"><div class="info-item-1">1、#include iomanip 标准库头文件   操纵符 功能描述 示例    setprecision(n) 设置浮点数的精度（有效数字或小数位数） setprecision(2)   setw(n) 设置下一次输出内容的字段宽度 setw(10)   setfill(c) 设置填充字符（通常与 setw 连用） setfill(‘0’)   fixed 强制以固定小数点格式显示 cout &lt;&lt; fixed   left &#x2F; right 设置左对齐或右对齐 cout &lt;&lt; left   123456789101112131415161718192021222324#include &lt;iostream&gt;#include &lt;iomanip&gt; // 必须包含此头文件using namespace std;int main() &#123;    double pi = 3.1415926535;    double price = 123.4;    cout &lt;&lt; &quot;--- 格式化输出示例 ---...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/11/27/C++/C++%E5%AD%A6%E4%B9%A0/%E5%9F%BA%E6%9C%AC%E5%AD%A6%E4%B9%A0/" title="C++面向对象编程"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-27</div><div class="info-item-2">C++面向对象编程</div></div><div class="info-2"><div class="info-item-1">C++输入输出控制台输出：标准输出流利用cout工具准确来说：iostream库中，std名字空间下，一个名叫cout的对象用法：std::cout &lt;&lt;要输出的内容ps:”&lt;&lt;”是流插入运算符 控制台输出：标准输入流利用cin工具准确来说：iostream库中，std名字空间下，一个名叫cin的对象用法：std::cin &gt;&gt;要输出的内容ps:”&gt;&gt;”是流提取运算符 1234567891011#include &lt;iostream&gt;int main() &#123;	int a, b;	std::cin &gt;&gt; a &gt;&gt; b;	std::cout &lt;&lt; a &lt;&lt; &quot;+&quot; &lt;&lt; b &lt;&lt; &quot;=&quot; &lt;&lt; a + b;	//std::cout &lt;&lt; &quot;hello world!\n&quot;;	return 0;&#125;//2//3//2+3=5 名字空间的概念名字空间vs库（头文...</div></div></div></a><a class="pagination-related" href="/2025/11/28/C++/C++%E5%AD%A6%E4%B9%A0/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%93%8D%E6%8E%A7/" title="GKD运动操控"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-28</div><div class="info-item-2">GKD运动操控</div></div><div class="info-2"><div class="info-item-1">week 1编写一个简单的机器人控制系统 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151#include &lt;iostream&gt;#include &lt;cmath&gt;using namespace std;int main() &#123;	int x = 0, y = 0;	int direction = 0;	int enemy...</div></div></div></a><a class="pagination-related" href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/%E5%9F%BA%E6%9C%AC%E7%BB%83%E4%B9%A0/" title="牛客新手入门130"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-11</div><div class="info-item-2">牛客新手入门130</div></div><div class="info-2"><div class="info-item-1">1、#include iomanip 标准库头文件   操纵符 功能描述 示例    setprecision(n) 设置浮点数的精度（有效数字或小数位数） setprecision(2)   setw(n) 设置下一次输出内容的字段宽度 setw(10)   setfill(c) 设置填充字符（通常与 setw 连用） setfill(‘0’)   fixed 强制以固定小数点格式显示 cout &lt;&lt; fixed   left &#x2F; right 设置左对齐或右对齐 cout &lt;&lt; left   123456789101112131415161718192021222324#include &lt;iostream&gt;#include &lt;iomanip&gt; // 必须包含此头文件using namespace std;int main() &#123;    double pi = 3.1415926535;    double price = 123.4;    cout &lt;&lt; &quot;--- 格式化输出示例 ---...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC82MTAxNi8zNzQ4Ng=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Pan</div><div class="author-info-description">We gon'be just fine</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Pan-0802"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Pan-0802" target="_blank" title="Github"><i class="fab fa-github" style="color: #hdhfbb;"></i></a><a class="social-icon" href="mailto:3466595379@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8-%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E2%80%9C%E4%BB%93%E5%BA%93%E2%80%9D"><span class="toc-number">1.</span> <span class="toc-text">常见容器 存储数据的“仓库”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%BC%8F%E5%AE%B9%E5%99%A8-Sequence-Containers"><span class="toc-number">1.1.</span> <span class="toc-text">序列式容器 (Sequence Containers)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">用法示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%AE%97%E6%B3%95%EF%BC%88Algorithm%EF%BC%89%EF%BC%9A%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E7%9A%84%E2%80%9C%E5%B7%A5%E5%85%B7%E2%80%9D"><span class="toc-number">2.</span> <span class="toc-text">常用算法（Algorithm）：处理数据的“工具”</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/%E5%9F%BA%E6%9C%AC%E7%BB%83%E4%B9%A0/" title="牛客新手入门130">牛客新手入门130</a><time datetime="2026-01-11T00:36:40.000Z" title="发表于 2026-01-11 08:36:40">2026-01-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/" title="stl常见容器及算法">stl常见容器及算法</a><time datetime="2026-01-11T00:36:40.000Z" title="发表于 2026-01-11 08:36:40">2026-01-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/15/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E6%9C%9F%E6%9C%AB%E5%A4%A7%E5%A4%8D%E4%B9%A0/%E5%8A%A8%E6%80%81%E6%95%B0%E7%BB%84%E4%B8%8E%E6%8C%87%E9%92%88/" title="期末总结">期末总结</a><time datetime="2025-12-15T06:36:40.000Z" title="发表于 2025-12-15 14:36:40">2025-12-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/03/C%E8%AF%AD%E8%A8%80/C%E8%AF%AD%E8%A8%80%E7%BB%83%E4%B9%A0/%E8%BE%93%E5%85%A5%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" title="C语言字符串输入方法完全总结">C语言字符串输入方法完全总结</a><time datetime="2025-12-03T11:15:40.000Z" title="发表于 2025-12-03 19:15:40">2025-12-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/03/web/web%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="web工具配置与使用">web工具配置与使用</a><time datetime="2025-12-03T09:36:40.000Z" title="发表于 2025-12-03 17:36:40">2025-12-03</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Pan</span></div><div class="footer_custom_text">要缓慢而坚定地做自己能做的事情</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const loadLivere = (el, path) => {
+    window.livereOptions = {
+      refer: path || location.pathname
+    }
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyLivere = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if (isShuoshuo) {
+    'Livere' === 'Livere'
+      ? window.shuoshuoComment = { loadComment: loadLivere }
+      : window.loadOtherComment = loadLivere
+    return
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.2"></script></div></div></body></html>
