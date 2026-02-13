@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>stl</title>
+      <link href="/2026/02/13/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/C++stl/"/>
+      <url>/2026/02/13/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/C++stl/</url>
+      
+        <content type="html"><![CDATA[<p>首先摆出代码：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;algorithm&gt;</span> <span class="comment">// 包含 transform 和 tolower</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    string s;</span><br><span class="line">    <span class="keyword">if</span> (!(cin &gt;&gt; s)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1. 将原字符串统一转换为小写，处理“不区分大小写”的问题</span></span><br><span class="line">    string lower_s = s;</span><br><span class="line">    <span class="built_in">transform</span>(lower_s.<span class="built_in">begin</span>(), lower_s.<span class="built_in">end</span>(), lower_s.<span class="built_in">begin</span>(), ::tolower);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2. 使用 string 类的 find 函数寻找目标子串 &quot;bob&quot;</span></span><br><span class="line">    <span class="type">size_t</span> pos = lower_s.<span class="built_in">find</span>(<span class="string">&quot;bob&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3. 判断是否找到并输出结果</span></span><br><span class="line">    <span class="keyword">if</span> (pos != string::npos) &#123;</span><br><span class="line">        cout &lt;&lt; (<span class="type">int</span>)pos &lt;&lt; endl;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ol><li>不区分大小写的处理 (std::transform)<br>由于题目要求不区分大小写，最稳妥的方法是把整个字符串全部转为小写。</li></ol><p>transform 函数通过迭代器遍历字符串。</p><p>::tolower 是一个回调函数，负责把每个字母变成小写。</p><ol start="2"><li>字符串查找 (find 与 npos)<br>s.find(“target”)：返回子串第一次出现的起始下标。</li></ol><p>string::npos：这是一个特殊的常量，代表“未找到”。如果 find 没找到子串，它就会返回这个值。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>stl常见容器及算法</title>
       <link href="/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/"/>
       <url>/2026/01/11/C++/C++%E5%AD%A6%E4%B9%A0/acm%E8%AE%AD%E7%BB%83/stl%E5%B8%B8%E8%A7%81%E5%AE%B9%E5%99%A8%E5%8F%8A%E7%AE%97%E6%B3%95/</url>
@@ -354,11 +379,11 @@
     
     
     <entry>
-      <title>数组</title>
-      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/"/>
-      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/</url>
+      <title>方法</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、数组的定义"><a href="#一、数组的定义" class="headerlink" title="一、数组的定义"></a>一、数组的定义</h2><p>1.定义：<br>a.动态初始化：定义时没有给具体的数据<br>数据类型[]  数组名  &#x3D;  new  数据类型[长度]<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]</p><p>b.静态初始化：定义数组就直接给了具体的数据<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]{元素1，元素2，…….}</p><p>c.简化的静态初始化<br>数据类型  数组名[]  &#x3D;{元素1，元素2，…….}</p><h2 id="二、数组操作"><a href="#二、数组操作" class="headerlink" title="二、数组操作"></a>二、数组操作</h2><p>1.获取数组长度<br>1.1格式：<br>数组名.length<br>1.2注意;<br>length后面不要带小括号，因为length不是数组中的方法，而是数组中的一个属性。</p><p>2.索引<br>概念：元素在数组中储存的位置（编号，下标）</p><p>3.存储数据<br>格式：<br>数组名[索引值] &#x3D; 值  –&gt;  将等号右边的数据放到数据指定的索引位置上</p><p>4.获取数据<br>System.out.println(数组名[下标]);</p><p>空指针异常：<br>*原因：当一个对象为null时，再次调用次对象中的其他成员</p><h2 id="三、内存图"><a href="#三、内存图" class="headerlink" title="三、内存图"></a>三、内存图</h2><p>1、内存：“内存条”，所有软件，运行起来都会进入内存中，占用内存，在java世界里，将内存划分为5块<br>2、五块：<br>a.栈（stack）<br>主要运行方法，方法的运行都会进栈内存运行，运行完毕后，需要“弹栈”，为了腾出空间</p><p>b.堆（Heap）<br>保存的是对象，数组，每new一次，都会在堆内存中开辟空间，并为这个空间分配一个地址值<br>堆内存中的数据都是有默认值的</p><p>c.方法区（Method Area）<br>代码的“预备区”，记录了类的信息以及方法的信息<br>方法区中主要保存class文件及其其中的信息<br>代码运行之前，需要先存进内存（方法区）</p><p>d.本地方法栈（Native  Method  Stack）:专门运行native方法（本地方法）<br>本地方法可以理解为堆对Java功能的扩充<br>有很多功能，Java语言实现不了，所以需要依靠本地方法完成（c语言编写）</p><p>e.寄存器(pc register)<br>和cpu有关</p><h2 id="四、二维数组"><a href="#四、二维数组" class="headerlink" title="四、二维数组"></a>四、二维数组</h2>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、方法的使用"><a href="#一、方法的使用" class="headerlink" title="一、方法的使用"></a>一、方法的使用</h2><p>1、简单方法定义（无参数返回值）<br>通用定义格式：<br>修饰符  返回值类型  方法名（参数）{<br>方法体<br>Return   结果<br>}</p><p>分为四种方法学习：<br>a.无参无返回值<br>b.有参无返回值<br>c.无参有返回值<br>d.有参有返回值</p><p>a.无参无返回值：<br>Public  static  void  方法名(){<br>方法体<br>}<br>注意事项：1）void关键字表示无返回值，写了void，就不要在方法中写return  结果<br>2）方法之间不能相互嵌套，方法之间是平级关系<br>3）方法的执行顺序只和调用顺序有关</p><p>b.有参无返回值：<br>Public  static  void  方法名(数据类型  变量名){<br>方法体<br>}</p><p>c.无参有返回值：<br>1）格式：<br>Public  static  返回值类型  方法名(){<br>方法体<br>Return  结果<br>}<br>2）调用：<br>a.打印调用：sout(方法名())<br>b.赋值调用：调用完之后用一个变量接收返回值的结果!!!!!!!极力推荐<br>数据类型  变量名  &#x3D;  方法名（）</p><p>d.有参有返回值<br>1）格式：<br>Public  static  返回值类型  方法名(参数){<br>方法体<br>Return  结果<br>}</p>]]></content>
       
       
       <categories>
@@ -379,11 +404,11 @@
     
     
     <entry>
-      <title>方法</title>
-      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/"/>
-      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%976/</url>
+      <title>数组</title>
+      <link href="/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/"/>
+      <url>/2025/11/25/Java/learningg/%E6%A8%A1%E5%9D%97%E4%B8%80/%E6%A8%A1%E5%9D%975/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、方法的使用"><a href="#一、方法的使用" class="headerlink" title="一、方法的使用"></a>一、方法的使用</h2><p>1、简单方法定义（无参数返回值）<br>通用定义格式：<br>修饰符  返回值类型  方法名（参数）{<br>方法体<br>Return   结果<br>}</p><p>分为四种方法学习：<br>a.无参无返回值<br>b.有参无返回值<br>c.无参有返回值<br>d.有参有返回值</p><p>a.无参无返回值：<br>Public  static  void  方法名(){<br>方法体<br>}<br>注意事项：1）void关键字表示无返回值，写了void，就不要在方法中写return  结果<br>2）方法之间不能相互嵌套，方法之间是平级关系<br>3）方法的执行顺序只和调用顺序有关</p><p>b.有参无返回值：<br>Public  static  void  方法名(数据类型  变量名){<br>方法体<br>}</p><p>c.无参有返回值：<br>1）格式：<br>Public  static  返回值类型  方法名(){<br>方法体<br>Return  结果<br>}<br>2）调用：<br>a.打印调用：sout(方法名())<br>b.赋值调用：调用完之后用一个变量接收返回值的结果!!!!!!!极力推荐<br>数据类型  变量名  &#x3D;  方法名（）</p><p>d.有参有返回值<br>1）格式：<br>Public  static  返回值类型  方法名(参数){<br>方法体<br>Return  结果<br>}</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、数组的定义"><a href="#一、数组的定义" class="headerlink" title="一、数组的定义"></a>一、数组的定义</h2><p>1.定义：<br>a.动态初始化：定义时没有给具体的数据<br>数据类型[]  数组名  &#x3D;  new  数据类型[长度]<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]</p><p>b.静态初始化：定义数组就直接给了具体的数据<br>数据类型  数组名[]  &#x3D;  new  数据类型[长度]{元素1，元素2，…….}</p><p>c.简化的静态初始化<br>数据类型  数组名[]  &#x3D;{元素1，元素2，…….}</p><h2 id="二、数组操作"><a href="#二、数组操作" class="headerlink" title="二、数组操作"></a>二、数组操作</h2><p>1.获取数组长度<br>1.1格式：<br>数组名.length<br>1.2注意;<br>length后面不要带小括号，因为length不是数组中的方法，而是数组中的一个属性。</p><p>2.索引<br>概念：元素在数组中储存的位置（编号，下标）</p><p>3.存储数据<br>格式：<br>数组名[索引值] &#x3D; 值  –&gt;  将等号右边的数据放到数据指定的索引位置上</p><p>4.获取数据<br>System.out.println(数组名[下标]);</p><p>空指针异常：<br>*原因：当一个对象为null时，再次调用次对象中的其他成员</p><h2 id="三、内存图"><a href="#三、内存图" class="headerlink" title="三、内存图"></a>三、内存图</h2><p>1、内存：“内存条”，所有软件，运行起来都会进入内存中，占用内存，在java世界里，将内存划分为5块<br>2、五块：<br>a.栈（stack）<br>主要运行方法，方法的运行都会进栈内存运行，运行完毕后，需要“弹栈”，为了腾出空间</p><p>b.堆（Heap）<br>保存的是对象，数组，每new一次，都会在堆内存中开辟空间，并为这个空间分配一个地址值<br>堆内存中的数据都是有默认值的</p><p>c.方法区（Method Area）<br>代码的“预备区”，记录了类的信息以及方法的信息<br>方法区中主要保存class文件及其其中的信息<br>代码运行之前，需要先存进内存（方法区）</p><p>d.本地方法栈（Native  Method  Stack）:专门运行native方法（本地方法）<br>本地方法可以理解为堆对Java功能的扩充<br>有很多功能，Java语言实现不了，所以需要依靠本地方法完成（c语言编写）</p><p>e.寄存器(pc register)<br>和cpu有关</p><h2 id="四、二维数组"><a href="#四、二维数组" class="headerlink" title="四、二维数组"></a>四、二维数组</h2>]]></content>
       
       
       <categories>
