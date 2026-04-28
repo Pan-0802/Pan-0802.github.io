@@ -1,0 +1,469 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>JS简单学习 | Pan的博客</title><meta name="author" content="Pan"><meta name="copyright" content="Pan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1 JS语句、标识符程序单位为line，也可以用；来表示语句结束 2 变量3 JS引入到文件1.直接嵌套到HTML文件中 2.引入本地独立js文件3.引入网络来源文件 1234引入本地独立js文件&lt;body&gt;	&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;.&#x2F;itbaizhan.js&quot;&gt; &lt;&#x2F;scrip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS简单学习">
+<meta property="og:url" content="https://pan-0802.github.io/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Pan的博客">
+<meta property="og:description" content="1 JS语句、标识符程序单位为line，也可以用；来表示语句结束 2 变量3 JS引入到文件1.直接嵌套到HTML文件中 2.引入本地独立js文件3.引入网络来源文件 1234引入本地独立js文件&lt;body&gt;	&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;.&#x2F;itbaizhan.js&quot;&gt; &lt;&#x2F;scrip">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pan-0802.github.io/img/kun.jpg">
+<meta property="article:published_time" content="2026-04-28T00:36:40.000Z">
+<meta property="article:modified_time" content="2026-04-28T15:53:22.655Z">
+<meta property="article:author" content="Pan">
+<meta property="article:tag" content="gradio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pan-0802.github.io/img/kun.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "JS简单学习",
+  "url": "https://pan-0802.github.io/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/",
+  "image": "https://pan-0802.github.io/img/kun.jpg",
+  "datePublished": "2026-04-28T00:36:40.000Z",
+  "dateModified": "2026-04-28T15:53:22.655Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pan",
+      "url": "https://pan-0802.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://pan-0802.github.io/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":false,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'JS简单学习',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Pan的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">JS简单学习</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 全部文章</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">JS简单学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-28T00:36:40.000Z" title="发表于 2026-04-28 08:36:40">2026-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-28T15:53:22.655Z" title="更新于 2026-04-28 23:53:22">2026-04-28</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/gradio/">gradio</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h3 id="1-JS语句、标识符"><a href="#1-JS语句、标识符" class="headerlink" title="1 JS语句、标识符"></a>1 JS语句、标识符</h3><p>程序单位为line，也可以用；来表示语句结束</p>
+<h3 id="2-变量"><a href="#2-变量" class="headerlink" title="2 变量"></a>2 变量</h3><h3 id="3-JS引入到文件"><a href="#3-JS引入到文件" class="headerlink" title="3 JS引入到文件"></a>3 JS引入到文件</h3><p>1.直接嵌套到HTML文件中 2.引入本地独立js文件3.引入网络来源文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">引入本地独立js文件</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;script type=&quot;text/javascript&quot; src=&quot;./itbaizhan.js&quot;&gt; &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p>2</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">引入网络来源文件</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;script src=&quot;http://code.jquery.com/jquery1.2.1.min.js &quot;&gt; &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="4-注释与常见输出方式"><a href="#4-注释与常见输出方式" class="headerlink" title="4 注释与常见输出方式"></a>4 注释与常见输出方式</h3><p>单行注释&#x2F;&#x2F;<br>多行注释  和C语言一样</p>
+<p>HTML文件中注释</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 注释 --&gt;</span><br></pre></td></tr></table></figure>
+
+<p>JS输出方式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 在浏览器中弹出一个对话框，然后把要输出的内容展示出来，alert都是把要输出的内容首先转化为字符串然后再输出</span><br><span class="line">alert(&quot;要输出的内容&quot;);</span><br><span class="line"></span><br><span class="line">document.write(&quot;要输出的内容&quot;);</span><br><span class="line"></span><br><span class="line">// 在控制台输出内容</span><br><span class="line">console.log(&quot;要输出的内容&quot;);</span><br></pre></td></tr></table></figure>
+<h3 id="5-数据类型"><a href="#5-数据类型" class="headerlink" title="5 数据类型"></a>5 数据类型</h3><p>合成类型（复合类型）<br>对象：因为一个对象往往是多个原始类型的值的合成，可以看作是一个存放各种值的容器</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var user = &#123;</span><br><span class="line">	name:&quot;pan&quot;,</span><br><span class="line">	age:20 ,</span><br><span class="line">	learn:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至于undefine和null，一般将它们看作两个特殊值。</p>
+<h3 id="6-typeof运算符"><a href="#6-typeof运算符" class="headerlink" title="6 typeof运算符"></a>6 typeof运算符</h3><p>可检测数据类型（判断基本数据类型使用）<br> null一般表示对象为“没有”<br> undefined一般代表数值为“”没有</p>
+<h3 id="7-运算符"><a href="#7-运算符" class="headerlink" title="7 运算符"></a>7 运算符</h3><p>比较运算符</p>
+<table>
+<thead>
+<tr>
+<th>比较运算符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x3D;&#x3D;&#x3D;</td>
+<td>严格相等运算符</td>
+</tr>
+<tr>
+<td>！&#x3D;&#x3D;</td>
+<td>严格不相等运算符</td>
+</tr>
+<tr>
+<td>布尔值取反</td>
+<td></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!ture // false</span><br><span class="line">!false // ture</span><br></pre></td></tr></table></figure>
+<p>非布尔值取反<br>对于非布尔值，取反运算符会将其转为布尔值。以下六个值取反后为true，其他值都为false</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">undefined</span><br><span class="line">null</span><br><span class="line">false</span><br><span class="line">0</span><br><span class="line">NaN</span><br><span class="line">空字符串（&quot;）</span><br></pre></td></tr></table></figure>
+<p>且运算符&amp;&amp;<br>或运算符||</p>
+<h3 id="8-条件语句"><a href="#8-条件语句" class="headerlink" title="8 条件语句"></a>8 条件语句</h3><h3 id="9-循环语句"><a href="#9-循环语句" class="headerlink" title="9 循环语句"></a>9 循环语句</h3><h3 id="10-字符串方法"><a href="#10-字符串方法" class="headerlink" title="10 字符串方法"></a>10 字符串方法</h3><p>charAt方法返回指定位置的字符，参数是从0开始编号的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var s = new String(&#x27;itbaizhan&#x27;);</span><br><span class="line"></span><br><span class="line">s.charAt(1) //&quot;t&quot;</span><br><span class="line">s.charAt(s.length - 1) //n</span><br></pre></td></tr></table></figure>
+<p>如果参数为负数，或大于等于字符串的长度，charAt返回空字符串</p>
+<hr>
+<p>concat方法用于连接两个字符串，返回一个新字符串，不改变原字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var s1=&quot;hello&quot;;</span><br><span class="line">var s2=&#x27;world&#x27;</span><br><span class="line"></span><br><span class="line">s1.concat(s2) //helloworld</span><br></pre></td></tr></table></figure>
+<p>其实字符串直接使用+相连更加快一点</p>
+<hr>
+<p>substring方法用于从原字符串取出子字符串并返回，不改变原字符串。它的第一个参数表示子字符串的开始位置，第二个位置表示结束位置（返回结果不含该位置）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;itbaizhan&quot;.substring(0,2) // &quot;it&quot;</span><br></pre></td></tr></table></figure>
+<p>如果第二个参数大于第一个参数，substring方法会自动将负数转为0<br>如果参数是负数，则自动转化为零，然后按以上规则进行</p>
+<hr>
+<p>substr方法用于从原字符串取出子字符串并返回，不改变原字符串。第一个参数是子字符串的开始位置，第二个参数是子字符串的长度。<br>如果省略第二个参数，则表示子字符串一直到原字符串的结束。<br>如果第一个参数是负数，则表示倒数计算的字符位置。如果第二个参数是负数，将自动转为零，因此会返回空字符串。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;itbaizhan&quot;.substr(-7) //&quot;baizhan&quot;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>indexOf方法用于确定一个字符串在另一个字符串中第一次出现的位置，返回结果是匹配开始的位置。如果返回为-1，就表示不匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello world&quot;.index(&#x27;o&#x27;) //4</span><br><span class="line">&quot;hello world&quot;.index(&#x27;set&#x27;) //-1</span><br></pre></td></tr></table></figure>
+<p>indexOf方法还可以接受第二个参数，表示从该位置开始向后匹配</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;hello world&quot;.index(&#x27;o&#x27;,6) //7</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>trim方法用于去除字符串两端的空格，返回一个新的字符串，不改变原字符串<br>该方法还去除包括制表符（\t   \v）、换行符（\n）、回车符（\r）</p>
+<hr>
+<p>split方法按照给定规则分割字符串，返回一个由分割出来的子字符串组成的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;it|six|aa&#x27;.split(&#x27;|&#x27;) // [&quot;it&quot;,&quot;six&quot;,&quot;aa&quot;]</span><br></pre></td></tr></table></figure>
+<p>如果分割规则为空字符串，则返回数组的成员是原字符串的每一个字符<br>如果参数省略，则返回的唯一成员为该字符串本身。<br>split方法还可以接受第二个参数，限定返回数组的最大成员数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x27;it|six|aa&#x27;.split(&#x27;|&#x27;,0) // []</span><br><span class="line">&#x27;it|six|aa&#x27;.split(&#x27;|&#x27;,1) // [&quot;it&quot;]</span><br><span class="line">&#x27;it|six|aa&#x27;.split(&#x27;|&#x27;,2) // [&quot;it&quot;,&quot;six&quot;]</span><br><span class="line">&#x27;it|six|aa&#x27;.split(&#x27;|&#x27;,4) // [&quot;it&quot;,&quot;six&quot;,&quot;aa&quot;]</span><br></pre></td></tr></table></figure>
+<h3 id="11-数组"><a href="#11-数组" class="headerlink" title="11 数组"></a>11 数组</h3><h3 id="12-数组方法"><a href="#12-数组方法" class="headerlink" title="12 数组方法"></a>12 数组方法</h3><p>数组静态方法Array.isArray()<br>此方法返回一个布尔值，表示参数是否为数组。它弥补了typeof运算符的不足</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var arr=[&quot;it&quot;,&quot;six&quot;,&quot;aa&quot;];</span><br><span class="line">Array.isArray(arr) // true</span><br></pre></td></tr></table></figure>
+<hr>
+<p>push()&#x2F;pop()<br>push方法用于在数组的末尾添加一个或多个元素，并返回添加新元素后的数组长度。注意，该方法会改变原数组。<br>pop方法用于删除数组的最后一个元素，并返回该元素。该方法会改变原数组</p>
+<hr>
+<p>shift()&#x2F;unshift()<br>shift方法用于删除数组的第一个元素，并返回该元素（此方法可以用循环来遍历并清空一个数组。<br>unshift方法可以接受一个或多个参数，这些参数会添加到目标数组的头部。</p>
+<hr>
+<p>join()<br>join方法以指定参数作为分隔符，将所有数组成员连接为一个字符串返回。如果不提供参数，默认用逗号隔开。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var a=[1,2,3,4]</span><br><span class="line"></span><br><span class="line">a.join(&#x27; &#x27;) //&quot;1 2 3 4&quot;</span><br><span class="line">a.join(&quot;|&quot;) //1|2|3|4</span><br><span class="line">a.join() //&quot;1,2,3,4&quot;</span><br></pre></td></tr></table></figure>
+<p>如果数组成员是undefeined或null或空位，会被转成空字符串</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[undefined,null].join(&quot;#&quot;)  //&quot;#&quot;</span><br><span class="line"></span><br><span class="line">[&quot;a&quot;,,&quot;b&quot;].join(&#x27;#&#x27;)  //&quot;a#b&quot;</span><br></pre></td></tr></table></figure>
+<p>数组的join配合字符串的split，可以实现数组与字符串的互换</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var arr = [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;];</span><br><span class="line">var myArr = arr.join(&quot;&quot;) //abc</span><br><span class="line">console.log(myArr.split(&quot;&quot;)) //[&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>concat()<br>数组合并</p>
+<hr>
+<p>reverse()<br>reverse方法用于颠倒排列数组元素，返回改变后的数组。注意，该方法改变原数组<br>可实现一个字符串反转排列</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var str = &quot;hello&quot;;</span><br><span class="line">str.split(&quot;&quot;).reverse().join(&quot;&quot;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>indexOf()</p>
+<h3 id="13-函数"><a href="#13-函数" class="headerlink" title="13 函数"></a>13 函数</h3><h3 id="14-对象"><a href="#14-对象" class="headerlink" title="14 对象"></a>14 对象</h3><p>对象是一组“键值对”（key-value）的集合，是一种无序的复合数据集合<br>如果属性的值还是一个对象则可以采用链式调用</p>
+<hr>
+<p>Math对象<br>Math.abs返回参数的绝对值<br>Math.max方法，Math.min方法<br>Math.floor方法返回小于参数值的最大整数<br>Math.ceil方法返回大于参数值的最小整数<br>Math.random()放回0到1之间的一个伪随机数，可能等于0，但是一定小于1<br>任意范围的随机数生成函数如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function getRandom(min,max)&#123;</span><br><span class="line">	return Math.random * (max-min) + min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>Date对象</p>
+<hr>
+<h3 id="DOM概述"><a href="#DOM概述" class="headerlink" title="DOM概述"></a>DOM概述</h3><p>DOM是JS操作网页的接口，全称为“文档对象模型”。它的作用是将网页转为一个JS对象，从而可以用脚本进行各种操作（比如对元素增删内容）</p>
+<p>#DOM 核心 7 种节点类型</p>
+<table>
+<thead>
+<tr>
+<th><strong>节点类型</strong></th>
+<th><strong>对应常量 (Node Type)</strong></th>
+<th><strong>值 (Code)</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>！！<strong>Document (文档节点)</strong></td>
+<td><code>Node.DOCUMENT_NODE</code></td>
+<td>13</td>
+<td>整个文档的根节点（即 <code>window.document</code>）。</td>
+</tr>
+<tr>
+<td>！！<strong>Element (元素节点)</strong></td>
+<td><code>Node.ELEMENT_NODE</code></td>
+<td>1</td>
+<td>HTML 标签，如 <code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;a&gt;</code>。</td>
+</tr>
+<tr>
+<td><strong>Attribute (属性节点)</strong></td>
+<td><code>Node.ATTRIBUTE_NODE</code></td>
+<td>2</td>
+<td>标签内的属性，如 <code>class=&quot;active&quot;</code>, <code>src=&quot;...&quot;</code>。</td>
+</tr>
+<tr>
+<td><strong>Text (文本节点)</strong></td>
+<td><code>Node.TEXT_NODE</code></td>
+<td>3</td>
+<td>标签包含的实际文字内容（包括空格和换行）。</td>
+</tr>
+<tr>
+<td><strong>Comment (注释节点)</strong></td>
+<td><code>Node.COMMENT_NODE</code></td>
+<td>8</td>
+<td>HTML 中的注释内容 &#96;&#96;。</td>
+</tr>
+<tr>
+<td><strong>DocumentType (文档类型节点)</strong></td>
+<td><code>Node.DOCUMENT_TYPE_NODE</code></td>
+<td>10</td>
+<td>文档第一行的声明，即 <code>&lt;!DOCTYPE html&gt;</code>。</td>
+</tr>
+<tr>
+<td><strong>DocumentFragment (文档片段节点)</strong></td>
+<td><code>Node.DOCUMENT_FRAGMENT_NODE</code></td>
+<td>11</td>
+<td>轻量级的文档对象，常用于优化内存中的 DOM 操作。</td>
+</tr>
+<tr>
+<td>#节点树</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>document:代表整个文档</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>在 DOM 节点树中，除了最顶层的根节点（<code>document</code>）之外，每一个节点都处于一个复杂的“家族网”中。</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="1-父级关系-Parent"><a href="#1-父级关系-Parent" class="headerlink" title="1. 父级关系 (Parent)"></a>1. 父级关系 (Parent)</h4><p>每个节点（除根节点外）都有且只有一个<strong>父节点</strong>。它是当前节点的直接上级。</p>
+<ul>
+<li><strong>对应属性：</strong> <code>parentNode</code> 或 <code>parentElement</code>。</li>
+<li><strong>例子：</strong> 在 <code>&lt;ul&gt;&lt;li&gt;&lt;/li&gt;&lt;/ul&gt;</code> 中，<code>&lt;ul&gt;</code> 是 <code>&lt;li&gt;</code> 的父节点。</li>
+</ul>
+<h4 id="2-子级关系-Child"><a href="#2-子级关系-Child" class="headerlink" title="2. 子级关系 (Child)"></a>2. 子级关系 (Child)</h4><p>一个节点可以拥有任意数量的<strong>子节点</strong>（包括 0 个）。</p>
+<ul>
+<li><strong>对应属性：</strong> * <code>childNodes</code>（包含所有类型的子节点，如文本、注释）。<ul>
+<li><code>children</code>（只包含元素子节点，最常用）。</li>
+<li><code>firstChild</code> &#x2F; <code>lastChild</code>（第一个和最后一个子节点）。</li>
+</ul>
+</li>
+<li><strong>例子：</strong> 上述例子中，<code>&lt;li&gt;</code> 是 <code>&lt;ul&gt;</code> 的子节点。</li>
+</ul>
+<h4 id="3-兄弟关系-Sibling"><a href="#3-兄弟关系-Sibling" class="headerlink" title="3. 兄弟关系 (Sibling)"></a>3. 兄弟关系 (Sibling)</h4><p>拥有同一个父节点的节点之间互为<strong>兄弟节点</strong>。</p>
+<ul>
+<li><strong>对应属性：</strong><ul>
+<li><code>previousSibling</code> &#x2F; <code>nextSibling</code>（前一个和后一个节点）。</li>
+<li><code>previousElementSibling</code> &#x2F; <code>nextElementSibling</code>（前一个和后一个<strong>元素</strong>节点）。</li>
+</ul>
+</li>
+<li><strong>例子：</strong> 如果一个 <code>&lt;ul&gt;</code> 下有两个 <code>&lt;li&gt;</code>，这两个 <code>&lt;li&gt;</code> 就是兄弟关系。</li>
+</ul>
+<h4 id="nodetype属性"><a href="#nodetype属性" class="headerlink" title=".nodetype属性"></a>.nodetype属性</h4><h4 id="DOM-节点类型常量对照表"><a href="#DOM-节点类型常量对照表" class="headerlink" title="DOM 节点类型常量对照表"></a>DOM 节点类型常量对照表</h4><table>
+<thead>
+<tr>
+<th><strong>节点类型</strong></th>
+<th><strong>常量名称 (需前缀 Node.)</strong></th>
+<th><strong>对应数值</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>元素节点</strong></td>
+<td><code>Node.ELEMENT_NODE</code></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>属性节点</strong></td>
+<td><code>Node.ATTRIBUTE_NODE</code></td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td><strong>文本节点</strong></td>
+<td><code>Node.TEXT_NODE</code></td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td><strong>CDATA 节点</strong></td>
+<td><code>Node.CDATA_SECTION_NODE</code></td>
+<td><strong>4</strong></td>
+</tr>
+<tr>
+<td><strong>实体引用节点</strong></td>
+<td><code>Node.ENTITY_REFERENCE_NODE</code></td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td><strong>实体节点</strong></td>
+<td><code>Node.ENTITY_NODE</code></td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>处理指令节点</strong></td>
+<td><code>Node.PROCESSING_INSTRUCTION_NODE</code></td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><strong>注释节点</strong></td>
+<td><code>Node.COMMENT_NODE</code></td>
+<td><strong>8</strong></td>
+</tr>
+<tr>
+<td><strong>文档节点</strong></td>
+<td><code>Node.DOCUMENT_NODE</code></td>
+<td><strong>9</strong></td>
+</tr>
+<tr>
+<td><strong>文档类型节点</strong></td>
+<td><code>Node.DOCUMENT_TYPE_NODE</code></td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td><strong>文档片段节点</strong></td>
+<td><code>Node.DOCUMENT_FRAGMENT_NODE</code></td>
+<td><strong>11</strong></td>
+</tr>
+<tr>
+<td><strong>记号节点</strong></td>
+<td><code>Node.NOTATION_NODE</code></td>
+<td><strong>12</strong></td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 假设我们有一个节点 someNode</span><br><span class="line">var someNode = document.querySelector(&#x27;div&#x27;);</span><br><span class="line"></span><br><span class="line">// 推荐写法：使用常量，可读性强</span><br><span class="line">if (someNode.nodeType === Node.ELEMENT_NODE) &#123;</span><br><span class="line">    console.log(&quot;这是一个元素节点&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 普通写法：使用数字，虽然简洁但不够直观</span><br><span class="line">if (someNode.nodeType === 1) &#123;</span><br><span class="line">    console.log(&quot;这同样代表一个元素节点&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="document对象-方法-获取元素"><a href="#document对象-方法-获取元素" class="headerlink" title="document对象_方法&#x2F;获取元素"></a>document对象_方法&#x2F;获取元素</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io">Pan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://pan-0802.github.io/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/">https://pan-0802.github.io/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://pan-0802.github.io" target="_blank">Pan的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/gradio/">gradio</a></div><div class="post-share"><div class="social-share" data-image="/./img/kun.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/24/Learn/gradio%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="gradio简单学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">gradio简单学习</div></div><div class="info-2"><div class="info-item-1">gradio.Textbox文本框 12345678910import gradio as gr#创建block界面with gr.Blocks() as demo:    #在web界面写一个文本框    gr.Textbox(label=&quot;输入框&quot;,placeholder=&quot;请输入内容&quot;)#main方法中启动web界面if __name__ == &#x27;__main__&#x27;:    demo.launch()  gr.Button创建一个按钮，可以绑定点击事件 12345678910import gradio as gr#创建block界面with gr.Blocks() as demo:    #创建一个按钮    gr.Button(&quot;提交&quot;)#main方法中启动web界面if __name__ == &#x27;__main__&#x27;:    demo.launch()  gr.Slider创建一个滑块属性：minimum&#x3D;&#x3D;&#x3D;&gt;最小值maximum&#x...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/24/Learn/gradio%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="gradio简单学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-24</div><div class="info-item-2">gradio简单学习</div></div><div class="info-2"><div class="info-item-1">gradio.Textbox文本框 12345678910import gradio as gr#创建block界面with gr.Blocks() as demo:    #在web界面写一个文本框    gr.Textbox(label=&quot;输入框&quot;,placeholder=&quot;请输入内容&quot;)#main方法中启动web界面if __name__ == &#x27;__main__&#x27;:    demo.launch()  gr.Button创建一个按钮，可以绑定点击事件 12345678910import gradio as gr#创建block界面with gr.Blocks() as demo:    #创建一个按钮    gr.Button(&quot;提交&quot;)#main方法中启动web界面if __name__ == &#x27;__main__&#x27;:    demo.launch()  gr.Slider创建一个滑块属性：minimum&#x3D;&#x3D;&#x3D;&gt;最小值maximum&#x...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC82MTAxNi8zNzQ4Ng=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/./img/kun.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Pan</div><div class="author-info-description">We gon'be just fine</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">28</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Pan-0802"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/Pan-0802" target="_blank" title="Github"><i class="fab fa-github" style="color: #hdhfbb;"></i></a><a class="social-icon" href="mailto:3466595379@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #000000;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-JS%E8%AF%AD%E5%8F%A5%E3%80%81%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">1.</span> <span class="toc-text">1 JS语句、标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%98%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">2 变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-JS%E5%BC%95%E5%85%A5%E5%88%B0%E6%96%87%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">3 JS引入到文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B3%A8%E9%87%8A%E4%B8%8E%E5%B8%B8%E8%A7%81%E8%BE%93%E5%87%BA%E6%96%B9%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">4 注释与常见输出方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">5 数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-typeof%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">6.</span> <span class="toc-text">6 typeof运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">7.</span> <span class="toc-text">7 运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">8.</span> <span class="toc-text">8 条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">9.</span> <span class="toc-text">9 循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%96%B9%E6%B3%95"><span class="toc-number">10.</span> <span class="toc-text">10 字符串方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%95%B0%E7%BB%84"><span class="toc-number">11.</span> <span class="toc-text">11 数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%95%B0%E7%BB%84%E6%96%B9%E6%B3%95"><span class="toc-number">12.</span> <span class="toc-text">12 数组方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13-%E5%87%BD%E6%95%B0"><span class="toc-number">13.</span> <span class="toc-text">13 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#14-%E5%AF%B9%E8%B1%A1"><span class="toc-number">14.</span> <span class="toc-text">14 对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM%E6%A6%82%E8%BF%B0"><span class="toc-number">15.</span> <span class="toc-text">DOM概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E7%88%B6%E7%BA%A7%E5%85%B3%E7%B3%BB-Parent"><span class="toc-number">15.1.</span> <span class="toc-text">1. 父级关系 (Parent)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AD%90%E7%BA%A7%E5%85%B3%E7%B3%BB-Child"><span class="toc-number">15.2.</span> <span class="toc-text">2. 子级关系 (Child)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%85%84%E5%BC%9F%E5%85%B3%E7%B3%BB-Sibling"><span class="toc-number">15.3.</span> <span class="toc-text">3. 兄弟关系 (Sibling)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nodetype%E5%B1%9E%E6%80%A7"><span class="toc-number">15.4.</span> <span class="toc-text">.nodetype属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-%E8%8A%82%E7%82%B9%E7%B1%BB%E5%9E%8B%E5%B8%B8%E9%87%8F%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="toc-number">15.5.</span> <span class="toc-text">DOM 节点类型常量对照表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#document%E5%AF%B9%E8%B1%A1-%E6%96%B9%E6%B3%95-%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0"><span class="toc-number">16.</span> <span class="toc-text">document对象_方法&#x2F;获取元素</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/28/Learn/JS%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="JS简单学习">JS简单学习</a><time datetime="2026-04-28T00:36:40.000Z" title="发表于 2026-04-28 08:36:40">2026-04-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/24/Learn/gradio%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="gradio简单学习">gradio简单学习</a><time datetime="2026-04-24T00:36:40.000Z" title="发表于 2026-04-24 08:36:40">2026-04-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/23/%E9%98%85%E8%AF%BB/%E5%BD%93%E6%9C%BA%E4%BC%9A%E6%B8%BA%E8%8C%AB%EF%BC%8C%E6%98%AF%E5%90%A6%E8%BF%98%E8%A6%81%E4%B8%BA%E4%B9%8B%E6%8B%BC%E6%90%8F%E2%80%94%E2%80%94%E8%AF%BB%E3%80%8A%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D%E3%80%8B%E6%9C%89%E6%84%9F/" title="当机会渺茫，是否还要为之拼搏——读《长安的荔枝》有感"><img src="/./img/seaandsunset.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="当机会渺茫，是否还要为之拼搏——读《长安的荔枝》有感"/></a><div class="content"><a class="title" href="/2026/04/23/%E9%98%85%E8%AF%BB/%E5%BD%93%E6%9C%BA%E4%BC%9A%E6%B8%BA%E8%8C%AB%EF%BC%8C%E6%98%AF%E5%90%A6%E8%BF%98%E8%A6%81%E4%B8%BA%E4%B9%8B%E6%8B%BC%E6%90%8F%E2%80%94%E2%80%94%E8%AF%BB%E3%80%8A%E9%95%BF%E5%AE%89%E7%9A%84%E8%8D%94%E6%9E%9D%E3%80%8B%E6%9C%89%E6%84%9F/" title="当机会渺茫，是否还要为之拼搏——读《长安的荔枝》有感">当机会渺茫，是否还要为之拼搏——读《长安的荔枝》有感</a><time datetime="2026-04-23T04:36:40.000Z" title="发表于 2026-04-23 12:36:40">2026-04-23</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/12/Learn/vue%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0/" title="vue3简单学习">vue3简单学习</a><time datetime="2026-04-12T00:36:40.000Z" title="发表于 2026-04-12 08:36:40">2026-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/11/Python/ATM%E6%A1%88%E4%BE%8B/" title="ATM案例">ATM案例</a><time datetime="2026-04-11T00:36:40.000Z" title="发表于 2026-04-11 08:36:40">2026-04-11</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Pan</span></div><div class="footer_custom_text">要缓慢而坚定地做自己能做的事情</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+
+  const loadLivere = (el, path) => {
+    window.livereOptions = {
+      refer: path || location.pathname
+    }
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyLivere = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    if (typeof LivereTower === 'object') window.LivereTower.init()
+    else {
+      (function(d, s) {
+          var j, e = d.getElementsByTagName(s)[0];
+          if (typeof LivereTower === 'function') { return; }
+          j = d.createElement(s);
+          j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+          j.async = true;
+          e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    }
+  }
+
+  if (isShuoshuo) {
+    'Livere' === 'Livere'
+      ? window.shuoshuoComment = { loadComment: loadLivere }
+      : window.loadOtherComment = loadLivere
+    return
+  }
+
+  if ('Livere' === 'Livere' || !false) {
+    if (false) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+    else loadLivere()
+  } else {
+    window.loadOtherComment = loadLivere
+  }
+})()</script></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.2"></script></div></div></body></html>
